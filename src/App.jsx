@@ -706,6 +706,9 @@ function App() {
     
     // 省份轮播
     const timer = setInterval(() => {
+      // 等待上一个省份地图加载完成
+      if (isProvinceMapLoading) return
+      
       currentIndex = (currentIndex + 1) % provinces.length
       currentProvince = provinces[currentIndex]
       
@@ -721,7 +724,7 @@ function App() {
         const randomCity = citiesInProvince[Math.floor(Math.random() * citiesInProvince.length)]
         setSelectedCity(randomCity.name)
       }
-    }, 300) // 每300毫秒切换一次
+    }, 2000) // 每2秒切换一次
     
     setAutoPlayTimer(timer)
   }
