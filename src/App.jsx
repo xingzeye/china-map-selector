@@ -185,18 +185,38 @@ function App() {
   useEffect(() => {
     // 从阿里云DataV获取中国地图GeoJSON数据
     fetch('https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json')
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('网络响应异常')
+        }
+        return response.json()
+      })
       .then(geoJson => {
+        if (!geoJson || !geoJson.features) {
+          throw new Error('地图数据格式异常')
+        }
         // 注册中国地图到ECharts
         echarts.registerMap('china', geoJson)
         // 初始化地图配置
         updateMapOption()
+      })
+      .catch(error => {
+        console.error('加载中国地图数据失败:', error)
+        // 在界面上显示错误信息
+        setMapOption({
+          title: {
+            text: '地图加载失败，请刷新重试',
+            left: 'center',
+            top: 'center'
+          }
+        })
       })
   }, [])
 
   // 当选中省份变化或选择状态变化时，加载省份地图
   useEffect(() => {
     if (selectedProvince && isFinalSelection) {
+      setIsProvinceMapLoading(true)
       // 最终选择确定后，加载省份详细地图
       loadProvinceMap(selectedProvince)
     } else if (!selectedProvince) {
@@ -219,7 +239,10 @@ function App() {
   const loadProvinceMap = (province) => {
     // 获取省份编码
     const provinceCode = provinceCodeMap[province]
-    if (!provinceCode) return
+    if (!provinceCode) {
+      setIsProvinceMapLoading(false)
+      return
+    }
 
     // 设置加载状态
     setIsProvinceMapLoading(true)
@@ -227,8 +250,16 @@ function App() {
 
     // 从阿里云DataV获取省份地图GeoJSON数据
     fetch(`https://geo.datav.aliyun.com/areas_v3/bound/${provinceCode}_full.json`)
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('网络响应异常')
+        }
+        return response.json()
+      })
       .then(geoJson => {
+        if (!geoJson || !geoJson.features) {
+          throw new Error('地图数据格式异常')
+        }
         // 注册省份地图到ECharts
         echarts.registerMap(province, geoJson)
         
