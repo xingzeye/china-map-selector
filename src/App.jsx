@@ -248,8 +248,8 @@ function App() {
     setIsProvinceMapLoading(true)
     setShowProvinceMap(true)
 
-    // 从阿里云DataV获取省份地图GeoJSON数据
-    fetch(`https://geo.datav.aliyun.com/areas_v3/bound/${provinceCode}_full.json`)
+    // 从本地加载省份地图GeoJSON数据
+    fetch(`/china-map-selector/province-maps/${province}.json`)
       .then(response => {
         if (!response.ok) {
           throw new Error('网络响应异常')
@@ -724,7 +724,7 @@ function App() {
         const randomCity = citiesInProvince[Math.floor(Math.random() * citiesInProvince.length)]
         setSelectedCity(randomCity.name)
       }
-    }, 2000) // 每2秒切换一次
+    }, 300) // 每0.3秒切换一次
     
     setAutoPlayTimer(timer)
   }
