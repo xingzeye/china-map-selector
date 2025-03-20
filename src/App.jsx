@@ -755,7 +755,7 @@ function App() {
           <div className="province-map-container visible">
             {isProvinceMapLoading ? (
               <div className="province-map-loading">
-                正在加载地图...
+                {/*正在加载地图...*/}
               </div>
             ) : (
               <ReactECharts
