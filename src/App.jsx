@@ -183,8 +183,8 @@ function App() {
 
   // 组件加载时初始化中国地图数据
   useEffect(() => {
-    // 从阿里云DataV获取中国地图GeoJSON数据
-    fetch('https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json')
+    // 从本地获取中国地图GeoJSON数据
+    fetch('/china-map-selector/china.json')
       .then(response => {
         if (!response.ok) {
           throw new Error('网络响应异常')
