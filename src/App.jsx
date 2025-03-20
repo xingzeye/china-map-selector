@@ -724,7 +724,7 @@ function App() {
         const randomCity = citiesInProvince[Math.floor(Math.random() * citiesInProvince.length)]
         setSelectedCity(randomCity.name)
       }
-    }, 300) // 每0.3秒切换一次
+    }, 500) // 每0.5秒切换一次
     
     setAutoPlayTimer(timer)
   }
