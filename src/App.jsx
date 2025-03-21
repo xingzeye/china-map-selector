@@ -112,7 +112,7 @@ function App() {
     // 吉林省
     {name: '长春市', province: '吉林'},
     {name: '吉林市', province: '吉林'},
-    // 黑龙江省
+    // 黑龙江
     {name: '哈尔滨市', province: '黑龙江'},
     {name: '齐齐哈尔市', province: '黑龙江'},
     // 江苏省
@@ -569,126 +569,6 @@ function App() {
     }
   }
 
-  // 随机选择城市函数
-  const handleRandomSelectCity = () => {
-    // 如果正在选择中，则不执行
-    if (isCitySpinning) return
-    // 设置状态为选择中
-    setIsCitySpinning(true)
-    setSelectedCity('')
-
-    // 动画总步数
-    const maxCount = 150
-    let currentStep = 0
-    
-    // 随机选择一个城市
-    const finalCity = majorCities[Math.floor(Math.random() * majorCities.length)]
-    
-    // 创建更长的城市显示序列，确保动画足够长
-    let displayCities = []
-    
-    // 添加5轮完整的城市洗牌
-    for (let i = 0; i < 5; i++) {
-      const shuffledCities = [...majorCities].sort(() => Math.random() - 0.5)
-      displayCities = [...displayCities, ...shuffledCities]
-    }
-    
-    // 动画函数
-    const animate = () => {
-      // 当前进度比例
-      const progress = currentStep / maxCount
-      
-      // 最后15%的阶段开始频繁展示最终城市
-      const showFinalCity = progress > 0.85
-      
-      // 根据进度确定当前显示的城市
-      let currentCity
-      if (showFinalCity && Math.random() < 0.3 + progress * 0.7) {
-        // 根据进度增加最终城市出现的概率
-        currentCity = finalCity
-      } else {
-        // 正常轮换显示城市
-        currentCity = displayCities[currentStep % displayCities.length]
-      }
-      
-      // 更新选中城市
-      setSelectedCity(currentCity.name)
-      
-      // 如果还需要同时显示该城市所在的省份
-      if (currentCity.province) {
-        setSelectedProvince(currentCity.province)
-        setIsFinalSelection(true)
-        updateMapOption(currentCity.province, showFinalCity && currentStep >= maxCount - 10)
-      }
-      
-      // 如果还未到最后一步，继续动画
-      if (currentStep < maxCount - 1) {
-        currentStep++
-        
-        // 根据进度调整动画速度，实现渐进式减速效果
-        let duration
-        if (progress < 0.3) {
-          // A: 快速轮换
-          duration = Math.max(100, 180 - progress * 200)
-        } else if (progress < 0.7) {
-          // B: 中速
-          duration = 120 + Math.sin((progress - 0.3) * 5) * 30
-        } else if (progress < 0.85) {
-          // C: 开始减速
-          duration = 150 + (progress - 0.7) * 500
-        } else {
-          // D: 明显减速
-          duration = 300 + (progress - 0.85) * 1500
-        }
-        
-        // 设置下一步动画的延时
-        setTimeout(animate, duration)
-      } else {
-        // 动画结束，最终选择
-        setSelectedCity(finalCity.name)
-        setSelectedProvince(finalCity.province)
-        updateMapOption(finalCity.province, true)
-        setIsCitySpinning(false)
-        // 加载省份地图
-        loadProvinceMap(finalCity.province)
-      }
-    }
-
-    // 开始动画
-    animate()
-  }
-
-  // 清除当前选择并停止轮播
-  const handleClearSelection = () => {
-    // 停止轮播定时器
-    if (autoPlayTimer) {
-      clearInterval(autoPlayTimer)
-      setAutoPlayTimer(null)
-      // 保持当前选中的省份和城市
-      setIsFinalSelection(true)
-      // 加载省份地图
-      if (selectedProvince) {
-        loadProvinceMap(selectedProvince)
-      }
-    } else {
-      // 如果不是从轮播状态停止，则重置所有状态
-      setSelectedProvince('')
-      setSelectedCity('')
-      setIsFinalSelection(false)
-      setShowProvinceMap(false)
-    }
-    
-    setIsAutoPlaying(false)
-    setIsCitySpinning(false)
-    
-    // 更新地图显示
-    if (selectedProvince) {
-      updateMapOption(selectedProvince, true)
-    } else {
-      updateMapOption()
-    }
-  }
-
   // 开始自动轮播
   const startAutoPlay = () => {
     if (isAutoPlaying) return
@@ -727,6 +607,151 @@ function App() {
     }, 500) // 每0.5秒切换一次
     
     setAutoPlayTimer(timer)
+  }
+
+  // 添加倒计时状态
+  const [countdown, setCountdown] = useState(20)
+
+  // 随机选择城市函数
+  const handleRandomSelectCity = () => {
+    // 如果正在选择中，则不执行
+    if (isCitySpinning) return
+    
+    // 设置状态为选择中
+    setIsCitySpinning(true)
+    setSelectedCity('')
+    setCountdown(20) // 初始化倒计时
+    
+    // 动画总步数
+    const maxCount = 200
+    let currentStep = 0
+    
+    // 随机选择一个城市
+    const finalCity = majorCities[Math.floor(Math.random() * majorCities.length)]
+    
+    // 创建更长的城市显示序列，确保动画足够长
+    let displayCities = []
+    
+    // 添加5轮完整的城市洗牌
+    for (let i = 0; i < 5; i++) {
+      const shuffledCities = [...majorCities].sort(() => Math.random() - 0.5)
+      displayCities = [...displayCities, ...shuffledCities]
+    }
+    
+    // 动画开始时间
+    const startTime = Date.now()
+    const totalDuration = 20000 // 20秒
+    
+    // 倒计时定时器
+    const countdownTimer = setInterval(() => {
+      setCountdown(prev => {
+        if (prev <= 1) {
+          clearInterval(countdownTimer)
+          return 0
+        }
+        return prev - 1
+      })
+    }, 1000)
+    
+    // 动画函数
+    const animate = () => {
+      const currentTime = Date.now()
+      const elapsedTime = currentTime - startTime
+      
+      // 当前进度比例
+      const progress = currentStep / maxCount
+      
+      // 最后15%的阶段开始频繁展示最终城市
+      const showFinalCity = progress > 0.85
+      
+      // 根据进度确定当前显示的城市
+      let currentCity
+      if (showFinalCity && Math.random() < 0.3 + progress * 0.7) {
+        // 根据进度增加最终城市出现的概率
+        currentCity = finalCity
+      } else {
+        // 正常轮换显示城市
+        currentCity = displayCities[currentStep % displayCities.length]
+      }
+      
+      // 更新选中城市
+      setSelectedCity(`${currentCity.name} (${countdown}秒)`)
+      
+      // 如果还需要同时显示该城市所在的省份
+      if (currentCity.province) {
+        setSelectedProvince(currentCity.province)
+        setIsFinalSelection(true)
+        updateMapOption(currentCity.province, showFinalCity && currentStep >= maxCount - 10)
+      }
+      
+      // 如果还未到20秒，继续动画
+      if (elapsedTime < totalDuration) {
+        currentStep++
+        
+        // 根据进度调整动画速度，实现渐进式减速效果
+        let duration
+        if (progress < 0.3) {
+          // A: 快速轮换
+          duration = Math.max(50, 100 - progress * 100)
+        } else if (progress < 0.7) {
+          // B: 中速
+          duration = 80 + Math.sin((progress - 0.3) * 5) * 20
+        } else if (progress < 0.85) {
+          // C: 开始减速
+          duration = 100 + (progress - 0.7) * 300
+        } else {
+          // D: 明显减速
+          duration = 200 + (progress - 0.85) * 1000
+        }
+        
+        // 设置下一步动画的延时
+        setTimeout(animate, duration)
+      } else {
+        // 动画结束，最终选择
+        clearInterval(countdownTimer) // 清除倒计时定时器
+        setSelectedCity(finalCity.name)
+        setSelectedProvince(finalCity.province)
+        updateMapOption(finalCity.province, true)
+        setIsCitySpinning(false)
+        setCountdown(0) // 重置倒计时
+        // 加载省份地图
+        loadProvinceMap(finalCity.province)
+      }
+    }
+
+    // 开始动画
+    animate()
+  }
+
+  // 清除当前选择并停止轮播
+  const handleClearSelection = () => {
+    // 停止轮播定时器
+    if (autoPlayTimer) {
+      clearInterval(autoPlayTimer)
+      setAutoPlayTimer(null)
+      // 保持当前选中的省份和城市
+      setIsFinalSelection(true)
+      // 加载省份地图
+      if (selectedProvince) {
+        loadProvinceMap(selectedProvince)
+      }
+    } else {
+      // 如果不是从轮播状态停止，则重置所有状态
+      setSelectedProvince('')
+      setSelectedCity('')
+      setIsFinalSelection(false)
+      setShowProvinceMap(false)
+    }
+    
+    setIsAutoPlaying(false)
+    setIsCitySpinning(false)
+    
+    // 更新地图显示
+    if (selectedProvince) {
+      updateMapOption(selectedProvince, true)
+    } else {
+      updateMapOption()
+    }
   }
 
   // 渲染组件
@@ -772,23 +797,41 @@ function App() {
         {/* 随机选择按钮 */}
         <button
           className="select-button"
-          onClick={startAutoPlay}
-          disabled={isAutoPlaying}
+          onClick={handleRandomSelectCity}
+          disabled={isCitySpinning || isAutoPlaying}
         >
-          开始轮播
+          {isCitySpinning ? `随机选择中 (${countdown}秒)` : '随机选择'}
         </button>
 
-        {/* 重新选择按钮 */}
-        {(selectedProvince || selectedCity || isAutoPlaying) && (
-          <button
-            className="clear-button"
-            onClick={handleClearSelection}
-          >
-            停止轮播
-          </button>
-        )}
+        {/* 清除选择按钮 */}
+        <button
+          className="clear-button"
+          onClick={handleClearSelection}
+          disabled={isCitySpinning}
+        >
+          {isAutoPlaying ? '停止轮播' : '清除选择'}
+        </button>
       </div>
 
+      {/* 轮播按钮 */}
+      <button
+        className="select-button"
+        onClick={startAutoPlay}
+        disabled={isCitySpinning || isAutoPlaying}
+      >
+        开始轮播
+      </button>
+
+      {/* 重新选择按钮 */}
+      {(selectedProvince || selectedCity || isAutoPlaying || isCitySpinning) && (
+        <button
+          className="clear-button"
+          onClick={handleClearSelection}
+          disabled={isCitySpinning}
+        >
+          重新选择
+        </button>
+      )}
       {/* 城市选择器 */}
       {showCitySelector && selectedProvince && (
         <div className="city-selector">
