@@ -1,0 +1,11 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M60 60 C60 40 140 40 140 60" stroke="black" stroke-width="4" fill="none"/>
+  <path d="M50 60 L150 60" stroke="black" stroke-width="4"/>
+  <path d="M70 80 L130 80" stroke="black" stroke-width="4"/>
+  <path d="M60 100 L140 100" stroke="black" stroke-width="4"/>
+  <path d="M40 140 C40 160 160 160 160 140" stroke="black" stroke-width="4" fill="none"/>
+  <path d="M80 60 L80 100" stroke="black" stroke-width="4"/>
+  <path d="M100 60 L100 100" stroke="black" stroke-width="4"/>
+  <path d="M120 60 L120 100" stroke="black" stroke-width="4"/>
+  <path d="M90 120 L110 120" stroke="black" stroke-width="4" stroke-dasharray="4"/>
+</svg>

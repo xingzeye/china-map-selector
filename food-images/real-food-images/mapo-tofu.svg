@@ -1,0 +1,13 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 豆腐 -->
+  <rect x="60" y="80" width="80" height="60" stroke="#333" stroke-width="3" fill="none"/>
+  <!-- 豆腐切块纹理 -->
+  <line x1="80" y1="80" x2="80" y2="140" stroke="#333" stroke-width="2"/>
+  <line x1="100" y1="80" x2="100" y2="140" stroke="#333" stroke-width="2"/>
+  <line x1="120" y1="80" x2="120" y2="140" stroke="#333" stroke-width="2"/>
+  <!-- 辣椒 -->
+  <path d="M50 60 Q70 50 90 60" stroke="#FF4D4D" stroke-width="2" fill="none"/>
+  <path d="M110 60 Q130 50 150 60" stroke="#FF4D4D" stroke-width="2" fill="none"/>
+  <!-- 蒸汽 -->
+  <path d="M85 50 Q100 40 115 50" stroke="#333" stroke-width="2" fill="none"/>
+</svg>

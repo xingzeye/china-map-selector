@@ -1,0 +1,12 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 烤鸭 -->
+  <path d="M60 100 C60 60 140 60 140 100" stroke="#333" stroke-width="3" fill="none"/>
+  <!-- 鸭身 -->
+  <path d="M80 90 C80 70 120 70 120 90" stroke="#333" stroke-width="2" fill="none"/>
+  <!-- 鸭头 -->
+  <path d="M70 80 Q60 70 65 60" stroke="#333" stroke-width="2" fill="none"/>
+  <!-- 盘子 -->
+  <path d="M40 120 C40 110 160 110 160 120 C160 130 40 130 40 120" stroke="#333" stroke-width="3" fill="none"/>
+  <!-- 装饰 -->
+  <line x1="90" y1="100" x2="110" y2="100" stroke="#333" stroke-width="2"/>
+</svg>
