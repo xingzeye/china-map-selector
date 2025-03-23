@@ -139,7 +139,9 @@
 .app-header h1 {
   color: #1a3a8f;
   margin-bottom: 10px;
-  font-size: 28px;
+  font-size: 32px;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .app-description {
@@ -264,4 +266,218 @@
   color: white;
   border-color: #3a66d4;
   box-shadow: 0 2px 12px rgba(78, 123, 239, 0.3);
+}
+
+/* 导航栏样式 */
+.nav-tabs {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  gap: 10px;
+}
+
+.nav-tab {
+  padding: 8px 16px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 15px;
+  color: #2c3e50;
+}
+
+.nav-tab:hover {
+  background-color: #e9ecef;
+  transform: translateY(-2px);
+}
+
+.nav-tab.active {
+  background-color: #4e7bef;
+  color: white;
+  border-color: #3a66d4;
+  box-shadow: 0 2px 12px rgba(78, 123, 239, 0.3);
+}
+
+/* 美食选择器样式 */
+.food-selector-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.food-description {
+  color: #666;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.food-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 120px);
+  grid-template-rows: repeat(2, 150px);
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.food-card {
+  width: 120px;
+  height: 150px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.food-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.food-card.selected {
+  border: 3px solid #4e7bef;
+  box-shadow: 0 8px 20px rgba(78, 123, 239, 0.4);
+}
+
+.food-image-container {
+  height: 100px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f9f9f9;
+  position: relative;
+}
+
+.food-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+.food-info {
+  padding: 8px;
+  text-align: center;
+}
+
+.food-name {
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.food-province {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #666;
+}
+
+.food-button-group {
+  margin-top: 20px;
+}
+
+.food-select-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #4e7bef;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.food-select-button:hover {
+  background-color: #3a66d4;
+  transform: translateY(-2px);
+}
+
+.food-select-button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 美食结果弹窗 */
+.food-result-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.food-result-content {
+  background-color: white;
+  border-radius: 12px;
+  padding: 30px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.selected-food-card {
+  margin: 20px 0;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+}
+
+.selected-food-image-container {
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.selected-food-image {
+  max-width: 100%;
+  max-height: 140px;
+  object-fit: cover;
+}
+
+.selected-food-province {
+  font-size: 14px;
+  color: #666;
+  margin: 5px 0;
+}
+
+.selected-food-description {
+  font-size: 14px;
+  color: #333;
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+.close-result-button {
+  padding: 8px 20px;
+  background-color: #4e7bef;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 15px;
+}
+
+.close-result-button:hover {
+  background-color: #3a66d4;
+  transform: translateY(-2px);
 }

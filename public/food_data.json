@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "name": "火锅",
+    "description": "热气腾腾的火锅，百搭食材",
+    "image": "/food-images/real-food-images/hotpot.svg"
+  },
+  {
+    "id": 2,
+    "name": "烤肉",
+    "description": "香嫩多汁的烤肉",
+    "image": "/food-images/real-food-images/bbq.svg"
+  },
+  {
+    "id": 3,
+    "name": "烧烤",
+    "description": "美味的烤串，撸串必备",
+    "image": "/food-images/real-food-images/skewer.svg"
+  },
+  {
+    "id": 4,
+    "name": "炒菜",
+    "description": "家常炒菜，温暖可口",
+    "image": "/food-images/real-food-images/stir-fry.svg"
+  },
+  {
+    "id": 5,
+    "name": "麻辣烫",
+    "description": "麻辣鲜香的快餐选择",
+    "image": "/food-images/real-food-images/spicy-pot.svg"
+  },
+  {
+    "id": 6,
+    "name": "烤鱼",
+    "description": "香辣美味的烤鱼",
+    "image": "/food-images/real-food-images/grilled-fish.svg"
+  },
+  {
+    "id": 7,
+    "name": "蛋糕",
+    "description": "甜蜜可口的蛋糕",
+    "image": "/food-images/real-food-images/cake.svg"
+  },
+  {
+    "id": 8,
+    "name": "拉面",
+    "description": "劲道十足的拉面",
+    "image": "/food-images/real-food-images/noodles.svg"
+  },
+  {
+    "id": 9,
+    "name": "粤菜",
+    "description": "精致美味的粤式料理",
+    "image": "/food-images/real-food-images/cantonese.svg"
+  },
+  {
+    "id": 10,
+    "name": "西餐",
+    "description": "浪漫精致的西式料理",
+    "image": "/food-images/real-food-images/western.svg"
+  },
+  {
+    "id": 11,
+    "name": "日料",
+    "description": "新鲜精致的日本料理",
+    "image": "/food-images/real-food-images/japanese.svg"
+  },
+  {
+    "id": 12,
+    "name": "小吃",
+    "description": "各式各样的美味小吃",
+    "image": "/food-images/real-food-images/snacks.svg"
+  }
+]

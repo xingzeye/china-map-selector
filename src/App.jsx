@@ -5,6 +5,7 @@ import './App.css'
 
 function App() {
   // 状态管理变量定义
+  const [currentPage, setCurrentPage] = useState('map') // 当前显示的页面：'map' 或 'food'
   const [mapOption, setMapOption] = useState({}) // 中国地图配置
   const [provinceMapOption, setProvinceMapOption] = useState({}) // 省份地图配置
   const [selectedProvince, setSelectedProvince] = useState('') // 当前选中的省份
@@ -18,6 +19,14 @@ function App() {
   const [showCitySelector, setShowCitySelector] = useState(false) // 是否显示城市选择器
   const [isAutoPlaying, setIsAutoPlaying] = useState(false) // 是否正在自动轮播
   const [autoPlayTimer, setAutoPlayTimer] = useState(null) // 轮播定时器
+  
+  // 美食选择器相关状态
+  const [showFoodSelector, setShowFoodSelector] = useState(false) // 是否显示美食选择器
+  const [foodData, setFoodData] = useState([]) // 美食数据
+  const [selectedFood, setSelectedFood] = useState(null) // 当前选中的美食
+  const [isFoodSpinning, setIsFoodSpinning] = useState(false) // 是否正在随机选择美食
+  const [foodCountdown, setFoodCountdown] = useState(10) // 美食选择倒计时
+  const [showFoodResult, setShowFoodResult] = useState(false) // 是否显示最终选中的美食结果
 
   // 省份编码映射表，用于获取省份地图数据
   const provinceCodeMap = {
@@ -181,7 +190,7 @@ function App() {
     {name: '克拉玛依市', province: '新疆'}
   ];
 
-  // 组件加载时初始化中国地图数据
+  // 组件加载时初始化中国地图数据和美食数据
   useEffect(() => {
     // 从本地获取中国地图GeoJSON数据
     fetch('/china-map-selector/china.json')
@@ -210,6 +219,21 @@ function App() {
             top: 'center'
           }
         })
+      })
+      
+    // 加载美食数据
+    fetch('/china-map-selector/food_data.json')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('加载美食数据失败')
+        }
+        return response.json()
+      })
+      .then(data => {
+        setFoodData(data)
+      })
+      .catch(error => {
+        console.error('加载美食数据失败:', error)
       })
   }, [])
 
@@ -754,103 +778,290 @@ function App() {
     }
   }
 
+  // 随机选择美食函数
+  const handleRandomSelectFood = () => {
+    // 如果正在选择中，则不执行
+    if (isFoodSpinning) return
+    
+    // 设置状态为选择中
+    setIsFoodSpinning(true)
+    setSelectedFood(null)
+    setFoodCountdown(10) // 初始化倒计时为10秒
+    setShowFoodResult(false)
+    
+    // 动画总步数
+    const maxCount = 100
+    let currentStep = 0
+    
+    // 随机选择一个美食
+    const finalFood = foodData[Math.floor(Math.random() * foodData.length)]
+    
+    // 创建更长的美食显示序列，确保动画足够长
+    let displayFoods = []
+    
+    // 添加5轮完整的美食洗牌
+    for (let i = 0; i < 5; i++) {
+      const shuffledFoods = [...foodData].sort(() => Math.random() - 0.5)
+      displayFoods = [...displayFoods, ...shuffledFoods]
+    }
+    
+    // 动画开始时间
+    const startTime = Date.now()
+    const totalDuration = 10000 // 10秒
+    
+    // 倒计时定时器
+    const countdownTimer = setInterval(() => {
+      setFoodCountdown(prev => {
+        if (prev <= 1) {
+          clearInterval(countdownTimer)
+          return 0
+        }
+        return prev - 1
+      })
+    }, 1000)
+    
+    // 动画函数
+    const animate = () => {
+      const currentTime = Date.now()
+      const elapsedTime = currentTime - startTime
+      
+      // 当前进度比例
+      const progress = currentStep / maxCount
+      
+      // 最后15%的阶段开始频繁展示最终美食
+      const showFinalFood = progress > 0.85
+      
+      // 根据进度确定当前显示的美食
+      let currentFood
+      if (showFinalFood && Math.random() < 0.3 + progress * 0.7) {
+        // 根据进度增加最终美食出现的概率
+        currentFood = finalFood
+      } else {
+        // 正常轮换显示美食
+        currentFood = displayFoods[currentStep % displayFoods.length]
+      }
+      
+      // 更新选中美食
+      setSelectedFood(currentFood)
+      
+      // 如果还未到10秒，继续动画
+      if (elapsedTime < totalDuration) {
+        currentStep++
+        
+        // 根据进度调整动画速度，实现渐进式减速效果
+        let duration
+        if (progress < 0.3) {
+          // A: 快速轮换
+          duration = Math.max(50, 100 - progress * 100)
+        } else if (progress < 0.7) {
+          // B: 中速
+          duration = 80 + Math.sin((progress - 0.3) * 5) * 20
+        } else if (progress < 0.85) {
+          // C: 开始减速
+          duration = 100 + (progress - 0.7) * 300
+        } else {
+          // D: 明显减速
+          duration = 200 + (progress - 0.85) * 1000
+        }
+        
+        // 设置下一步动画的延时
+        setTimeout(animate, duration)
+      } else {
+        // 动画结束，最终选择
+        clearInterval(countdownTimer) // 清除倒计时定时器
+        setSelectedFood(finalFood)
+        setIsFoodSpinning(false)
+        setFoodCountdown(0) // 重置倒计时
+        setShowFoodResult(true) // 显示最终结果弹窗
+      }
+    }
+
+    // 开始动画
+    animate()
+  }
+
+  // 切换页面函数
+  const switchPage = (page) => {
+    setCurrentPage(page)
+  }
+
+  // 关闭美食结果弹窗
+  const closeFoodResult = () => {
+    setShowFoodResult(false)
+  }
+
   // 渲染组件
   return (
     <div className="container">
       {/* 页面头部 */}
       <header className="app-header">
-        <h1>中国地图省份城市选择器</h1>
+        <h1>{currentPage === 'map' ? '中国地图省份城市选择器' : '中国特色美食选择器'}</h1>
+          {currentPage === 'food' && <p className="food-description">随机选择一种中国特色美食，发现舌尖上的中国！</p>}
+        {/* 导航栏 */}
+        <div className="nav-tabs">
+          <button 
+            className={`nav-tab ${currentPage === 'map' ? 'active' : ''}`}
+            onClick={() => switchPage('map')}
+          >
+            地图选择器
+          </button>
+          <button 
+            className={`nav-tab ${currentPage === 'food' ? 'active' : ''}`}
+            onClick={() => switchPage('food')}
+          >
+            美食选择器
+          </button>
+        </div>
       </header>
 
-      {/* 地图容器 */}
-      <div className="echarts-container">
-        {/* 中国地图 */}
-        <div className="china-map-container">
-          <ReactECharts
-            option={mapOption}
-            style={{ height: '100%', width: '100%' }}
-            onEvents={{
-              'click': handleMapClick
-            }}
-          />
-        </div>
-        
-        {/* 省份地图 */}
-        {showProvinceMap && (
-          <div className="province-map-container visible">
-            {isProvinceMapLoading ? (
-              <div className="province-map-loading">
-                {/*正在加载地图...*/}
-              </div>
-            ) : (
+      {/* 地图选择器页面 */}
+      {currentPage === 'map' && (
+        <>
+          {/* 地图容器 */}
+          <div className="echarts-container">
+            {/* 中国地图 */}
+            <div className="china-map-container">
               <ReactECharts
-                option={provinceMapOption}
+                option={mapOption}
                 style={{ height: '100%', width: '100%' }}
+                onEvents={{
+                  'click': handleMapClick
+                }}
               />
+            </div>
+            
+            {/* 省份地图 */}
+            {showProvinceMap && (
+              <div className="province-map-container visible">
+                {isProvinceMapLoading ? (
+                  <div className="province-map-loading">
+                    {/*正在加载地图...*/}
+                  </div>
+                ) : (
+                  <ReactECharts
+                    option={provinceMapOption}
+                    style={{ height: '100%', width: '100%' }}
+                  />
+                )}
+              </div>
             )}
           </div>
-        )}
-      </div>
 
-      {/* 按钮组 */}
-      <div className="button-group">
-        {/* 随机选择按钮 */}
-        <button
-          className="select-button"
-          onClick={handleRandomSelectCity}
-          disabled={isCitySpinning || isAutoPlaying}
-        >
-          {isCitySpinning ? `随机选择中 (${countdown}秒)` : '随机选择'}
-        </button>
+          {/* 按钮组 */}
+          <div className="button-group">
+            {/* 随机选择按钮 */}
+            <button
+              className="select-button"
+              onClick={handleRandomSelectCity}
+              disabled={isCitySpinning || isAutoPlaying}
+            >
+              {isCitySpinning ? `随机选择中 (${countdown}秒)` : '随机选择'}
+            </button>
 
-        {/* 清除选择按钮 */}
-        <button
-          className="clear-button"
-          onClick={handleClearSelection}
-          disabled={isCitySpinning}
-        >
-          {isAutoPlaying ? '停止轮播' : '清除选择'}
-        </button>
-      </div>
+            {/* 清除选择按钮 */}
+            <button
+              className="clear-button"
+              onClick={handleClearSelection}
+              disabled={isCitySpinning}
+            >
+              {isAutoPlaying ? '停止轮播' : '清除选择'}
+            </button>
+          </div>
 
-      {/* 轮播按钮 */}
-      <button
-        className="select-button"
-        onClick={startAutoPlay}
-        disabled={isCitySpinning || isAutoPlaying}
-      >
-        开始轮播
-      </button>
+          {/* 轮播按钮 */}
+          <button
+            className="select-button"
+            onClick={startAutoPlay}
+            disabled={isCitySpinning || isAutoPlaying}
+          >
+            开始轮播
+          </button>
 
-      {/* 重新选择按钮 */}
-      {(selectedProvince || selectedCity || isAutoPlaying || isCitySpinning) && (
-        <button
-          className="clear-button"
-          onClick={handleClearSelection}
-          disabled={isCitySpinning}
-        >
-          重新选择
-        </button>
+          {/* 重新选择按钮 */}
+          {(selectedProvince || selectedCity || isAutoPlaying || isCitySpinning) && (
+            <button
+              className="clear-button"
+              onClick={handleClearSelection}
+              disabled={isCitySpinning}
+            >
+              重新选择
+            </button>
+          )}
+          {/* 城市选择器 */}
+          {showCitySelector && selectedProvince && (
+            <div className="city-selector">
+              <h3>{selectedProvince}的城市：</h3>
+              <div className="city-list">
+                {getProvinceCities().length > 0 ? (
+                  getProvinceCities().map((city, index) => (
+                    <button 
+                      key={index} 
+                      className={`city-item ${selectedCity === city ? 'selected' : ''}`}
+                      onClick={() => handleCitySelect(city)}
+                    >
+                      {city}
+                    </button>
+                  ))
+                ) : (
+                  <p>暂无城市数据</p>
+                )}
+              </div>
+            </div>
+          )}
+        </>
       )}
-      {/* 城市选择器 */}
-      {showCitySelector && selectedProvince && (
-        <div className="city-selector">
-          <h3>{selectedProvince}的城市：</h3>
-          <div className="city-list">
-            {getProvinceCities().length > 0 ? (
-              getProvinceCities().map((city, index) => (
-                <button 
-                  key={index} 
-                  className={`city-item ${selectedCity === city ? 'selected' : ''}`}
-                  onClick={() => handleCitySelect(city)}
-                >
-                  {city}
-                </button>
-              ))
-            ) : (
-              <p>暂无城市数据</p>
-            )}
+
+      {/* 美食选择器页面 */}
+      {currentPage === 'food' && (
+        <div className="food-selector-container">
+          
+          {/* 美食卡片网格 */}
+          <div className="food-grid">
+            {foodData.map((food) => (
+              <div 
+                key={food.id} 
+                className={`food-card ${selectedFood?.id === food.id ? 'selected' : ''}`}
+                onClick={() => !isFoodSpinning && setSelectedFood(food)}
+              >
+                <div className="food-image-container">
+                  <img src={`/china-map-selector${food.image}`} alt={food.name} className="food-image" />
+                </div>
+                <div className="food-info">
+                  <h3 className="food-name">{food.name}</h3>
+                  <p className="food-province">{food.province}</p>
+                </div>
+              </div>
+            ))}
           </div>
+          
+          {/* 美食选择按钮 */}
+          <div className="food-button-group">
+            <button 
+              className="food-select-button"
+              onClick={handleRandomSelectFood}
+              disabled={isFoodSpinning}
+            >
+              {isFoodSpinning ? `随机选择中 (${foodCountdown}秒)` : '随机选择美食'}
+            </button>
+          </div>
+          
+          {/* 美食结果弹窗 */}
+          {showFoodResult && selectedFood && (
+            <div className="food-result-modal">
+              <div className="food-result-content">
+                <h2>恭喜您选中了：</h2>
+                <div className="selected-food-card">
+                  <div className="selected-food-image-container">
+                    <img src={`/china-map-selector${selectedFood.image}`} alt={selectedFood.name} className="selected-food-image" />
+                  </div>
+                  <h3>{selectedFood.name}</h3>
+                  <p className="selected-food-province">{selectedFood.province}</p>
+                  <p className="selected-food-description">{selectedFood.description}</p>
+                </div>
+                <button className="close-result-button" onClick={closeFoodResult}>关闭</button>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
