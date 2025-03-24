@@ -895,8 +895,13 @@ function App() {
     <div className="container">
       {/* 页面头部 */}
       <header className="app-header">
-        <h1>{currentPage === 'map' ? '中国地图省份城市选择器' : '中国特色美食选择器'}</h1>
-          {currentPage === 'food' && <p className="food-description">随机选择一种中国特色美食，发现舌尖上的中国！</p>}
+        <h1>{currentPage === 'map' ? '中国地图省份城市选择器' : '美食选择器'}</h1>
+        {currentPage === 'food' && <p className="food-description">随机选择一种美食，发现舌尖上的世界！</p>}
+        {/* 版权信息 */}
+        <div className="copyright">
+          版权所有：xingzeye<br />
+          Northeast Electric Power University
+        </div>
         {/* 导航栏 */}
         <div className="nav-tabs">
           <button 
