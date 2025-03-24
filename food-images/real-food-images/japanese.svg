@@ -1,8 +1,43 @@
 <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M60 100 C60 80 140 80 140 100" stroke="black" stroke-width="4" fill="none"/>
-  <path d="M50 100 L150 100" stroke="black" stroke-width="4"/>
-  <path d="M70 80 L70 60" stroke="black" stroke-width="4"/>
-  <path d="M130 80 L130 60" stroke="black" stroke-width="4"/>
-  <path d="M90 120 L110 120" stroke="black" stroke-width="4"/>
-  <circle cx="100" cy="90" r="6" fill="black"/>
+  <!-- 定义渐变 -->
+  <defs>
+    <linearGradient id="woodGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#8B4513"/>
+      <stop offset="100%" style="stop-color:#DEB887"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 木质托盘 -->
+  <rect x="40" y="120" width="120" height="20" fill="url(#woodGradient)" stroke="#8B4513" stroke-width="1"/>
+  
+  <!-- 生鱼片寿司 -->
+  <rect x="50" y="80" width="40" height="30" rx="5" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="2"/>  <!-- 米饭 -->
+  <path d="M50 85 L90 85" stroke="#D3D3D3" stroke-width="1"/>  <!-- 米饭纹理 -->
+  <path d="M50 95 L90 95" stroke="#D3D3D3" stroke-width="1"/>
+  <path d="M45 75 Q70 65 95 75" fill="#FF9999" stroke="#FF6B6B" stroke-width="1"/>  <!-- 三文鱼 -->
+  
+  <!-- 卷寿司 -->
+  <rect x="110" y="80" width="40" height="30" rx="5" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="2"/>  <!-- 米饭 -->
+  <path d="M110 85 L150 85" stroke="#D3D3D3" stroke-width="1"/>  <!-- 米饭纹理 -->
+  <path d="M110 95 L150 95" stroke="#D3D3D3" stroke-width="1"/>
+  <rect x="105" y="75" width="50" height="10" fill="#2E8B57" stroke="#228B22" stroke-width="1"/>  <!-- 海苔 -->
+  
+  <!-- 筷子 -->
+  <rect x="60" y="40" width="80" height="3" rx="1.5" fill="#8B4513" transform="rotate(-30 60 40)"/>
+  <rect x="65" y="50" width="80" height="3" rx="1.5" fill="#8B4513" transform="rotate(-30 65 50)"/>
+  
+  <!-- 配料装饰 -->
+  <circle cx="70" cy="70" r="4" fill="#90EE90"/>  <!-- 芥末 -->
+  <rect x="130" cy="65" width="10" height="10" fill="#FFB6C1" rx="2"/>  <!-- 生姜 -->
+  
+  <!-- 酱油碟 -->
+  <ellipse cx="100" cy="110" rx="15" ry="5" fill="#8B4513" opacity="0.6"/>
+  
+  <!-- 装饰元素 -->
+  <circle cx="85" cy="100" r="3" fill="#FF6B6B"/>  <!-- 装饰 -->
+  <circle cx="115" cy="100" r="3" fill="#90EE90"/>  <!-- 装饰 -->
+  
+  <!-- 日式图案装饰 -->
+  <path d="M45 135 Q50 130 55 135" stroke="#E0E0E0" stroke-width="1" fill="none"/>
+  <path d="M145 135 Q150 130 155 135" stroke="#E0E0E0" stroke-width="1" fill="none"/>
 </svg>

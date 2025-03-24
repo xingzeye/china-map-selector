@@ -1,0 +1,19 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 寿司底部米饭 -->
+  <path d="M25 45 C25 60, 75 60, 75 45" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="2"/>
+  <!-- 海苔包裹 -->
+  <path d="M20 45 C20 65, 80 65, 80 45" fill="#263238" stroke="#1B1B1B" stroke-width="2"/>
+  <!-- 生鱼片 -->
+  <path d="M30 35 C30 45, 70 45, 70 35" fill="#FF8A65" stroke="#F4511E" stroke-width="2"/>
+  <!-- 芥末 -->
+  <circle cx="40" cy="40" r="3" fill="#AED581"/>
+  <!-- 装饰 -->
+  <circle cx="60" cy="40" r="2" fill="#FFD54F"/>  <!-- 鱼子酱 -->
+  <circle cx="65" cy="42" r="2" fill="#FFD54F"/>
+  <circle cx="55" cy="41" r="2" fill="#FFD54F"/>
+  <!-- 盘子 -->
+  <path d="M15 65 C15 75, 85 75, 85 65" fill="#E0E0E0" stroke="#BDBDBD" stroke-width="2"/>
+  <!-- 筷子 -->
+  <path d="M25 25 L35 35" stroke="#8D6E63" stroke-width="2"/>
+  <path d="M30 25 L40 35" stroke="#8D6E63" stroke-width="2"/>
+</svg>

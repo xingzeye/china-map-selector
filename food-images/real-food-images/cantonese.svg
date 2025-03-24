@@ -1,10 +1,44 @@
 <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M60 80 C60 60 140 60 140 80" stroke="black" stroke-width="4" fill="none"/>
-  <path d="M50 80 L150 80" stroke="black" stroke-width="4"/>
-  <path d="M40 80 L40 120" stroke="black" stroke-width="4"/>
-  <path d="M160 80 L160 120" stroke="black" stroke-width="4"/>
-  <path d="M40 120 L160 120" stroke="black" stroke-width="4"/>
-  <path d="M70 100 S100 60 130 100" stroke="black" stroke-width="4" fill="none"/>
-  <circle cx="85" cy="90" r="4" fill="black"/>
-  <circle cx="115" cy="90" r="4" fill="black"/>
+  <!-- 定义渐变 -->
+  <defs>
+    <linearGradient id="bambooGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#DEB887"/>
+      <stop offset="100%" style="stop-color:#8B4513"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 蒸笼底部 -->
+  <path d="M50 120 L150 120 L140 160 L60 160 Z" fill="url(#bambooGradient)" stroke="#8B4513" stroke-width="2"/>
+  
+  <!-- 蒸笼层 -->
+  <path d="M40 80 L160 80 L150 120 L50 120 Z" fill="#DEB887" stroke="#8B4513" stroke-width="2"/>
+  
+  <!-- 竹编纹理 -->
+  <path d="M45 90 L155 90" stroke="#8B4513" stroke-width="2"/>
+  <path d="M45 100 L155 100" stroke="#8B4513" stroke-width="2"/>
+  <path d="M45 110 L155 110" stroke="#8B4513" stroke-width="2"/>
+  
+  <!-- 竖向竹编纹理 -->
+  <path d="M60 80 L60 120" stroke="#8B4513" stroke-width="1"/>
+  <path d="M80 80 L80 120" stroke="#8B4513" stroke-width="1"/>
+  <path d="M100 80 L100 120" stroke="#8B4513" stroke-width="1"/>
+  <path d="M120 80 L120 120" stroke="#8B4513" stroke-width="1"/>
+  <path d="M140 80 L140 120" stroke="#8B4513" stroke-width="1"/>
+  
+  <!-- 虾饺 -->
+  <path d="M70 45 Q85 35 100 45" fill="#FFE4B5" stroke="#DEB887" stroke-width="2"/>
+  <path d="M75 45 Q85 40 95 45" stroke="#FF6B6B" stroke-width="1.5" fill="none"/>
+  
+  <!-- 烧卖 -->
+  <path d="M110 40 L120 55 L100 55 Z" fill="#FFE4B5" stroke="#DEB887" stroke-width="2"/>
+  <circle cx="110" cy="45" r="2" fill="#FF8C00"/>
+  
+  <!-- 叉烧包 -->
+  <ellipse cx="140" cy="50" rx="12" ry="10" fill="#FFF" stroke="#DEB887" stroke-width="2"/>
+  <path d="M135 50 Q140 45 145 50" stroke="#FF6B6B" stroke-width="2" fill="none"/>
+  
+  <!-- 蒸汽 -->
+  <path d="M70 30 Q80 20 90 30" stroke="#E6E6E6" stroke-width="2" fill="none" opacity="0.6"/>
+  <path d="M100 25 Q110 15 120 25" stroke="#E6E6E6" stroke-width="2" fill="none" opacity="0.6"/>
+  <path d="M130 30 Q140 20 150 30" stroke="#E6E6E6" stroke-width="2" fill="none" opacity="0.6"/>
 </svg>

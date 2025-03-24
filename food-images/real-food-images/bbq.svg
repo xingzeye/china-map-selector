@@ -1,10 +1,26 @@
-<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M60 80 L140 80" stroke="black" stroke-width="4"/>
-  <path d="M50 70 L150 70" stroke="black" stroke-width="4"/>
-  <path d="M55 90 L145 90" stroke="black" stroke-width="4"/>
-  <path d="M40 120 C40 160 160 160 160 120" stroke="black" stroke-width="4" fill="none"/>
-  <path d="M70 70 L70 90" stroke="black" stroke-width="4"/>
-  <path d="M100 70 L100 90" stroke="black" stroke-width="4"/>
-  <path d="M130 70 L130 90" stroke="black" stroke-width="4"/>
-  <path d="M85 110 L115 110" stroke="black" stroke-width="4"/>
+<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 烤架 -->
+  <path d="M15 30 L65 30" stroke="#333" stroke-width="2"/>
+  <path d="M10 25 L70 25" stroke="#333" stroke-width="2"/>
+  <path d="M12 35 L68 35" stroke="#333" stroke-width="2"/>
+  <!-- 支架 -->
+  <path d="M15 50 C15 60 65 60 65 50" stroke="#333" stroke-width="2" fill="none"/>
+  <!-- 肉片 -->
+  <path d="M25 25 L25 35" stroke="#FF9800" stroke-width="4" stroke-linecap="round"/>
+  <path d="M40 25 L40 35" stroke="#FF5722" stroke-width="4" stroke-linecap="round"/>
+  <path d="M55 25 L55 35" stroke="#FF9800" stroke-width="4" stroke-linecap="round"/>
+  <!-- 肉纹理 -->
+  <path d="M23 27 L27 27" stroke="#B71C1C" stroke-width="1" stroke-linecap="round"/>
+  <path d="M23 30 L27 30" stroke="#B71C1C" stroke-width="1" stroke-linecap="round"/>
+  <path d="M38 27 L42 27" stroke="#B71C1C" stroke-width="1" stroke-linecap="round"/>
+  <path d="M38 30 L42 30" stroke="#B71C1C" stroke-width="1" stroke-linecap="round"/>
+  <path d="M53 27 L57 27" stroke="#B71C1C" stroke-width="1" stroke-linecap="round"/>
+  <path d="M53 30 L57 30" stroke="#B71C1C" stroke-width="1" stroke-linecap="round"/>
+  <!-- 火焰 -->
+  <path d="M30 40 Q35 35 40 40" stroke="#FF4D4D" stroke-width="1" fill="#FF4D4D"/>
+  <path d="M45 42 Q50 37 55 42" stroke="#FF4D4D" stroke-width="1" fill="#FF4D4D"/>
+  <path d="M35 45 Q40 40 45 45" stroke="#FF7043" stroke-width="1" fill="#FF7043"/>
+  <!-- 烟雾 -->
+  <path d="M25 20 Q30 15 35 20" stroke="#90A4AE" stroke-width="1" opacity="0.6"/>
+  <path d="M45 18 Q50 13 55 18" stroke="#90A4AE" stroke-width="1" opacity="0.6"/>
 </svg>

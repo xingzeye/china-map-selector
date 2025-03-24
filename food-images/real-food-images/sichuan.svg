@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- 火锅底座 -->
+  <path d="M40 80 C40 120, 160 120, 160 80 L150 100 C150 130, 50 130, 50 100 Z" fill="#8B4513"/>
+  
+  <!-- 火锅锅身 -->
+  <path d="M30 80 C30 40, 170 40, 170 80 C170 120, 30 120, 30 80" fill="#CD5C5C"/>
+  
+  <!-- 锅内红汤 -->
+  <path d="M40 75 C40 45, 160 45, 160 75 C160 105, 40 105, 40 75" fill="#FF4500"/>
+  
+  <!-- 辣椒1 -->
+  <path d="M70 50 C65 40, 75 30, 80 45 C85 30, 95 40, 90 50 Z" fill="#FF0000"/>
+  
+  <!-- 辣椒2 -->
+  <path d="M110 55 C105 45, 115 35, 120 50 C125 35, 135 45, 130 55 Z" fill="#FF0000"/>
+  
+  <!-- 火焰效果 -->
+  <path d="M60 140 Q80 120 70 100 Q90 120 80 140" fill="#FFA500" opacity="0.6">
+    <animate attributeName="d" dur="2s" repeatCount="indefinite"
+      values="M60 140 Q80 120 70 100 Q90 120 80 140;
+              M60 140 Q80 110 70 90 Q90 110 80 140;
+              M60 140 Q80 120 70 100 Q90 120 80 140"/>
+  </path>
+  
+  <path d="M120 140 Q140 120 130 100 Q150 120 140 140" fill="#FFA500" opacity="0.6">
+    <animate attributeName="d" dur="2s" repeatCount="indefinite"
+      values="M120 140 Q140 120 130 100 Q150 120 140 140;
+              M120 140 Q140 110 130 90 Q150 110 140 140;
+              M120 140 Q140 120 130 100 Q150 120 140 140"/>
+  </path>
+  
+  <!-- 蒸汽效果 -->
+  <path d="M80 30 Q90 20 100 30 Q110 20 120 30" fill="none" stroke="#FFFFFF" stroke-width="2" opacity="0.5">
+    <animate attributeName="d" dur="3s" repeatCount="indefinite"
+      values="M80 30 Q90 20 100 30 Q110 20 120 30;
+              M80 25 Q90 15 100 25 Q110 15 120 25;
+              M80 30 Q90 20 100 30 Q110 20 120 30"/>
+  </path>
+</svg>

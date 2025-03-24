@@ -1,0 +1,19 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 碗 -->
+  <path d="M20 60 C20 80, 80 80, 80 60" fill="#E0E0E0" stroke="#BDBDBD" stroke-width="2"/>
+  <path d="M25 45 C25 70, 75 70, 75 45" fill="#F5F5F5" stroke="#E0E0E0" stroke-width="2"/>
+  <!-- 面条 -->
+  <path d="M30 40 C35 35, 45 35, 50 40" fill="#FFE0B2" stroke="#FFB74D" stroke-width="2"/>
+  <path d="M40 45 C45 40, 55 40, 60 45" fill="#FFE0B2" stroke="#FFB74D" stroke-width="2"/>
+  <path d="M35 50 C40 45, 50 45, 55 50" fill="#FFE0B2" stroke="#FFB74D" stroke-width="2"/>
+  <!-- 配料 -->
+  <circle cx="35" cy="42" r="3" fill="#81C784"/>  <!-- 葱花 -->
+  <path d="M45 55 L55 55" stroke="#A1887F" stroke-width="2"/>  <!-- 肉丝 -->
+  <circle cx="65" cy="45" r="4" fill="#FFF176"/>  <!-- 玉米 -->
+  <!-- 筷子 -->
+  <path d="M25 30 L35 40" stroke="#8D6E63" stroke-width="2"/>
+  <path d="M30 30 L40 40" stroke="#8D6E63" stroke-width="2"/>
+  <!-- 热气 -->
+  <path d="M40 25 Q45 20 50 25" stroke="#BDBDBD" stroke-width="2" opacity="0.6"/>
+  <path d="M55 20 Q60 15 65 20" stroke="#BDBDBD" stroke-width="2" opacity="0.6"/>
+</svg>

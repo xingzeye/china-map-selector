@@ -1,8 +1,40 @@
-<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M60 100 C60 80 140 80 140 100 C140 120 60 120 60 100" stroke="black" stroke-width="4" fill="none"/>
-  <path d="M70 90 L130 90" stroke="black" stroke-width="4"/>
-  <path d="M70 110 L130 110" stroke="black" stroke-width="4"/>
-  <path d="M140 100 L160 90" stroke="black" stroke-width="4"/>
-  <path d="M140 100 L160 110" stroke="black" stroke-width="4"/>
-  <circle cx="80" cy="100" r="4" fill="black"/>
+<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 烤盘 -->
+  <path d="M10 45 C10 55 70 55 70 45" fill="#555555" stroke="#333" stroke-width="2"/>
+  <path d="M15 45 C15 50 65 50 65 45" fill="#777777" stroke="none"/>
+  
+  <!-- 鱼身 -->
+  <path d="M20 40 C20 30 60 30 60 40 C60 50 20 50 20 40" fill="#FFA726" stroke="#333" stroke-width="2"/>
+  
+  <!-- 鱼鳍 -->
+  <path d="M40 30 L50 25" stroke="#333" stroke-width="2" fill="#FFC107"/>
+  <path d="M40 50 L50 55" stroke="#333" stroke-width="2" fill="#FFC107"/>
+  
+  <!-- 鱼尾 -->
+  <path d="M60 40 L70 35" stroke="#333" stroke-width="2" fill="#FFC107"/>
+  <path d="M60 40 L70 45" stroke="#333" stroke-width="2" fill="#FFC107"/>
+  
+  <!-- 鱼眼 -->
+  <circle cx="25" cy="40" r="2" fill="#333"/>
+  
+  <!-- 烤制纹路 -->
+  <path d="M30 35 L50 35" stroke="#E65100" stroke-width="1"/>
+  <path d="M30 45 L50 45" stroke="#E65100" stroke-width="1"/>
+  <path d="M35 32 L45 32" stroke="#E65100" stroke-width="1"/>
+  <path d="M35 38 L45 38" stroke="#E65100" stroke-width="1"/>
+  <path d="M35 42 L45 42" stroke="#E65100" stroke-width="1"/>
+  <path d="M35 48 L45 48" stroke="#E65100" stroke-width="1"/>
+  
+  <!-- 配菜 -->
+  <path d="M32 38 C34 36 36 40 34 42" fill="#4CAF50" stroke="#006400" stroke-width="1"/>  <!-- 青椒 -->
+  <path d="M42 38 C44 36 46 40 44 42" fill="#FF5722" stroke="#B71C1C" stroke-width="1"/>  <!-- 辣椒 -->
+  <circle cx="38" cy="40" r="2" fill="#FFC107" stroke="#FF8F00" stroke-width="1"/>  <!-- 姜片 -->
+  
+  <!-- 火焰 -->
+  <path d="M30 55 Q40 48 50 55" stroke="#FF4D4D" stroke-width="1" fill="#FF4D4D"/>
+  <path d="M35 55 Q40 50 45 55" stroke="#FF7043" stroke-width="1" fill="#FF7043"/>
+  
+  <!-- 烟雾 -->
+  <path d="M30 25 Q35 20 40 25" stroke="#90A4AE" stroke-width="1" opacity="0.6"/>
+  <path d="M45 23 Q50 18 55 23" stroke="#90A4AE" stroke-width="1" opacity="0.6"/>
 </svg>

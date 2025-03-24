@@ -1,0 +1,23 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 石锅 -->
+  <path d="M40 100 C40 100, 100 130, 160 100 L150 160 L50 160 Z" fill="#4A4A4A"/>
+  
+  <!-- 石锅纹理 -->
+  <path d="M50 110 L150 110" stroke="#666666" stroke-width="2" fill="none"/>
+  <path d="M55 120 L145 120" stroke="#666666" stroke-width="2" fill="none"/>
+  
+  <!-- 拌饭 -->
+  <circle cx="100" cy="90" r="30" fill="#FFFFFF"/>  <!-- 米饭 -->
+  <path d="M80 80 L120 80" stroke="#FF6B6B" stroke-width="4" fill="none"/>  <!-- 辣酱 -->
+  <circle cx="85" cy="90" r="5" fill="#90EE90"/>  <!-- 蔬菜 -->
+  <circle cx="100" cy="90" r="5" fill="#FFD700"/>  <!-- 鸡蛋 -->
+  <circle cx="115" cy="90" r="5" fill="#8B4513"/>  <!-- 牛肉 -->
+  
+  <!-- 配菜 -->
+  <circle cx="70" cy="70" r="8" fill="#FF0000"/>  <!-- 泡菜 -->
+  <circle cx="130" cy="70" r="8" fill="#32CD32"/>  <!-- 生菜 -->
+  
+  <!-- 蒸汽 -->
+  <path d="M70 40 Q80 30 90 40" stroke="#E6E6E6" stroke-width="2" fill="none"/>
+  <path d="M100 35 Q110 25 120 35" stroke="#E6E6E6" stroke-width="2" fill="none"/>
+</svg>

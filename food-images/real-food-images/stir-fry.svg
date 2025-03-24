@@ -1,9 +1,23 @@
-<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M60 80 C60 60 140 60 140 80" stroke="black" stroke-width="4" fill="none"/>
-  <path d="M50 80 L150 80" stroke="black" stroke-width="4"/>
-  <path d="M80 100 L120 100" stroke="black" stroke-width="4"/>
-  <path d="M70 120 L130 120" stroke="black" stroke-width="4"/>
-  <path d="M40 140 C40 160 160 160 160 140" stroke="black" stroke-width="4" fill="none"/>
-  <path d="M90 90 L110 110" stroke="black" stroke-width="4"/>
-  <path d="M110 90 L90 110" stroke="black" stroke-width="4"/>
+<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 炒锅 -->
+  <path d="M15 35 C15 25 65 25 65 35" stroke="#333" stroke-width="2" fill="#555555"/>
+  <path d="M10 35 L70 35" stroke="#333" stroke-width="2"/>
+  <!-- 锅底 -->
+  <path d="M15 35 C15 45 65 45 65 35" fill="#666666" stroke="#333" stroke-width="2"/>
+  <!-- 锅把手 -->
+  <path d="M65 30 C70 30 75 25 75 20" stroke="#333" stroke-width="2" fill="none"/>
+  <!-- 食材 -->
+  <path d="M25 28 C27 26 33 30 30 32" fill="#4CAF50" stroke="#006400" stroke-width="1"/>  <!-- 青菜 -->
+  <path d="M35 30 C38 28 42 32 40 34" fill="#FF5722" stroke="#B71C1C" stroke-width="1"/>  <!-- 肉片 -->
+  <path d="M45 28 C48 26 52 30 50 32" fill="#FFC107" stroke="#FFA000" stroke-width="1"/>  <!-- 胡萝卜 -->
+  <!-- 锅铲 -->
+  <path d="M45 20 L55 30" stroke="#333" stroke-width="2"/>
+  <path d="M52 27 L60 33" stroke="#333" stroke-width="2" fill="#DDDDDD"/>
+  <!-- 火焰 -->
+  <path d="M30 45 Q40 38 50 45" stroke="#FF4D4D" stroke-width="1" fill="#FF4D4D"/>
+  <path d="M35 45 Q40 40 45 45" stroke="#FF7043" stroke-width="1" fill="#FF7043"/>
+  <!-- 蒸汽 -->
+  <path d="M25 20 Q30 15 35 20" stroke="#90A4AE" stroke-width="1" opacity="0.6"/>
+  <path d="M40 18 Q45 13 50 18" stroke="#90A4AE" stroke-width="1" opacity="0.6"/>
+  <path d="M30 16 Q35 11 40 16" stroke="#90A4AE" stroke-width="1" opacity="0.6"/>
 </svg>
