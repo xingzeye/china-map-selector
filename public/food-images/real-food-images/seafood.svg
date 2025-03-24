@@ -1,0 +1,21 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 盘子 -->
+  <path d="M15 60 C15 75, 85 75, 85 60" fill="#E0E0E0" stroke="#BDBDBD" stroke-width="2"/>
+  <!-- 虾 -->
+  <path d="M30 45 C35 40, 45 40, 50 45" fill="#FF8A65" stroke="#F4511E" stroke-width="2"/>
+  <path d="M25 50 C30 45, 40 45, 45 50" fill="#FF8A65" stroke="#F4511E" stroke-width="2"/>
+  <circle cx="45" cy="42" r="2" fill="#000000"/>  <!-- 虾眼 -->
+  <!-- 鱼 -->
+  <path d="M55 35 C60 30, 70 30, 75 35 C70 40, 60 40, 55 35" fill="#90CAF9" stroke="#64B5F6" stroke-width="2"/>
+  <circle cx="70" cy="33" r="1" fill="#000000"/>  <!-- 鱼眼 -->
+  <!-- 贝类 -->
+  <path d="M35 55 C40 50, 50 50, 55 55" fill="#B39DDB" stroke="#9575CD" stroke-width="2"/>
+  <!-- 柠檬片 -->
+  <path d="M60 50 C65 45, 75 45, 80 50" fill="#FFF176" stroke="#FFEE58" stroke-width="2"/>
+  <!-- 装饰 -->
+  <circle cx="40" cy="35" r="2" fill="#81C784"/>  <!-- 香菜 -->
+  <circle cx="65" cy="55" r="2" fill="#81C784"/>
+  <!-- 冰块效果 -->
+  <path d="M20 55 L25 50" stroke="#B3E5FC" stroke-width="1" opacity="0.6"/>
+  <path d="M75 45 L80 40" stroke="#B3E5FC" stroke-width="1" opacity="0.6"/>
+</svg>

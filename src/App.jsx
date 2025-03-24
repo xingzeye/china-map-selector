@@ -951,31 +951,22 @@ function App() {
           <div className="button-group">
             {/* 随机选择按钮 */}
             <button
-              className="select-button"
-              onClick={handleRandomSelectCity}
-              disabled={isCitySpinning || isAutoPlaying}
+              className={`select-button ${isCitySpinning ? 'spinning' : ''}`}
+              onClick={isCitySpinning ? handleClearSelection : handleRandomSelectCity}
+              disabled={isAutoPlaying}
             >
               {isCitySpinning ? `随机选择中 (${countdown}秒)` : '随机选择'}
             </button>
 
-            {/* 清除选择按钮 */}
+            {/* 轮播按钮 */}
             <button
-              className="clear-button"
-              onClick={handleClearSelection}
+              className={`select-button ${isAutoPlaying ? 'playing' : ''}`}
+              onClick={isAutoPlaying ? handleClearSelection : startAutoPlay}
               disabled={isCitySpinning}
             >
-              {isAutoPlaying ? '停止轮播' : '清除选择'}
+              {isAutoPlaying ? '停止轮播' : '开始轮播'}
             </button>
           </div>
-
-          {/* 轮播按钮 */}
-          <button
-            className="select-button"
-            onClick={startAutoPlay}
-            disabled={isCitySpinning || isAutoPlaying}
-          >
-            开始轮播
-          </button>
 
           {/* 重新选择按钮 */}
           {(selectedProvince || selectedCity || isAutoPlaying || isCitySpinning) && (

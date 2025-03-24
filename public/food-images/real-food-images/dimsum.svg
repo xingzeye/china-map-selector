@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- 主餐盘 -->
+  <ellipse cx="100" cy="110" rx="80" ry="20" fill="#E6E6E6"/>
+  <path d="M20 110 C20 90, 180 90, 180 110 C180 130, 20 130, 20 110" fill="#FFFFFF"/>
+  
+  <!-- 主食 -->
+  <ellipse cx="60" cy="100" rx="25" ry="15" fill="#FFB380"/>
+  <path d="M40 95 C40 85, 80 85, 80 95 C80 105, 40 105, 40 95" fill="#FFE5CC"/>
+  
+  <!-- 蔬菜 -->
+  <path d="M90 90 C85 85, 95 80, 100 90 C105 80, 115 85, 110 90" fill="#90EE90"/>
+  <path d="M95 95 C90 90, 100 85, 105 95 C110 85, 120 90, 115 95" fill="#32CD32"/>
+  
+  <!-- 肉类 -->
+  <path d="M130 95 C125 90, 135 85, 140 95 C145 85, 155 90, 150 95" fill="#CD853F"/>
+  
+  <!-- 餐具 -->
+  <path d="M40 70 L45 100 L50 70" fill="none" stroke="#A9A9A9" stroke-width="2"/>
+  <path d="M60 70 L65 100 L70 70" fill="none" stroke="#A9A9A9" stroke-width="2"/>
+  
+  <!-- 装饰盘子 -->
+  <ellipse cx="150" cy="85" rx="15" ry="10" fill="#FFE4E1"/>
+  <ellipse cx="120" cy="80" rx="12" ry="8" fill="#F0FFF0"/>
+  
+  
+  <!-- 蒸汽效果 -->
+  <path d="M70 60 Q80 50 90 60" fill="none" stroke="#DCDCDC" stroke-width="2" opacity="0.5">
+    <animate attributeName="d" dur="3s" repeatCount="indefinite"
+      values="M70 60 Q80 50 90 60;M70 55 Q80 45 90 55;M70 60 Q80 50 90 60"/>
+  </path>
+  <path d="M100 65 Q110 55 120 65" fill="none" stroke="#DCDCDC" stroke-width="2" opacity="0.5">
+    <animate attributeName="d" dur="3s" repeatCount="indefinite"
+      values="M100 65 Q110 55 120 65;M100 60 Q110 50 120 60;M100 65 Q110 55 120 65"/>
+  </path>
+</svg>

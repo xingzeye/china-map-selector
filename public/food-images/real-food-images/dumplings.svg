@@ -1,0 +1,16 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 饺子主体 -->
+  <path d="M30 50 C30 35, 50 25, 70 35 C70 55, 50 65, 30 50" fill="#FFF3E0" stroke="#FFE0B2" stroke-width="2"/>
+  <!-- 饺子褶皱 -->
+  <path d="M35 42 L65 35" stroke="#FFE0B2" stroke-width="1"/>
+  <path d="M35 45 L65 38" stroke="#FFE0B2" stroke-width="1"/>
+  <path d="M35 48 L65 41" stroke="#FFE0B2" stroke-width="1"/>
+  <!-- 盘子 -->
+  <path d="M25 55 C25 65, 75 65, 75 55" fill="#E0E0E0" stroke="#BDBDBD" stroke-width="2"/>
+  <!-- 热气 -->
+  <path d="M40 25 Q45 20 50 25" stroke="#BDBDBD" stroke-width="2" opacity="0.6"/>
+  <path d="M50 20 Q55 15 60 20" stroke="#BDBDBD" stroke-width="2" opacity="0.6"/>
+  <!-- 装饰 -->
+  <circle cx="45" cy="43" r="2" fill="#FFCCBC"/>
+  <circle cx="55" cy="40" r="2" fill="#FFCCBC"/>
+</svg>

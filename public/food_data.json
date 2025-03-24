@@ -67,8 +67,80 @@
   },
   {
     "id": 12,
-    "name": "小吃",
-    "description": "各式各样的美味小吃",
-    "image": "/food-images/real-food-images/snacks.svg"
+    "name": "铁锅炖",
+    "description": "浓郁鲜美的东北铁锅炖",
+    "image": "/food-images/real-food-images/northeast.svg"
+  },
+  {
+    "id": 13,
+    "name": "自助餐",
+    "description": "丰富多样的自助美食",
+    "image": "/food-images/real-food-images/dimsum.svg"
+  },
+  {
+    "id": 14,
+    "name": "川菜",
+    "description": "麻辣鲜香的四川料理",
+    "image": "/food-images/real-food-images/sichuan.svg"
+  },
+  {
+    "id": 15,
+    "name": "东北菜",
+    "description": "热气腾腾的东北美食",
+    "image": "/food-images/real-food-images/northeast.svg"
+  },
+  {
+    "id": 16,
+    "name": "饺子",
+    "description": "皮薄馅大的美味饺子",
+    "image": "/food-images/real-food-images/dumplings.svg"
+  },
+  {
+    "id": 17,
+    "name": "汉堡",
+    "description": "美味多汁的汉堡",
+    "image": "/food-images/real-food-images/burger.svg"
+  },
+  {
+    "id": 18,
+    "name": "披萨",
+    "description": "香浓美味的意式披萨",
+    "image": "/food-images/real-food-images/pizza.svg"
+  },
+  {
+    "id": 19,
+    "name": "寿司",
+    "description": "新鲜美味的日式寿司",
+    "image": "/food-images/real-food-images/sushi.svg"
+  },
+  {
+    "id": 20,
+    "name": "韩料",
+    "description": "地道美味的韩国料理",
+    "image": "/food-images/real-food-images/korean.svg"
+  },
+  {
+    "id": 21,
+    "name": "海鲜",
+    "description": "新鲜美味的海鲜料理",
+    "image": "/food-images/real-food-images/seafood.svg"
+  },
+  {
+    "id": 22,
+    "name": "快餐",
+    "description": "便捷美味的快餐选择",
+    "image": "/food-images/real-food-images/fastfood.svg"
+  },
+  {
+    "id": 23,
+    "name": "面食",
+    "description": "各式各样的美味面食",
+    "image": "/food-images/real-food-images/noodle-dishes.svg"
+  },
+  {
+    "id": 24,
+    "name": "沙拉",
+    "description": "健康清爽的沙拉",
+    "image": "/food-images/real-food-images/salad.svg"
   }
 ]

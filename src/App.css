@@ -316,16 +316,16 @@
 
 .food-grid {
   display: grid;
-  grid-template-columns: repeat(6, 120px);
-  grid-template-rows: repeat(2, 150px);
-  gap: 15px;
+  grid-template-columns: repeat(12, 90px);
+  grid-template-rows: repeat(2, 120px);
+  gap: 10px;
   justify-content: center;
   margin-bottom: 30px;
 }
 
 .food-card {
-  width: 120px;
-  height: 150px;
+  width: 90px;
+  height: 120px;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -347,7 +347,7 @@
 }
 
 .food-image-container {
-  height: 100px;
+  height: 75px;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -480,4 +480,27 @@
 .close-result-button:hover {
   background-color: #3a66d4;
   transform: translateY(-2px);
+}
+
+/* 按钮状态样式 */
+.select-button.spinning {
+  background-color: #f39c12;
+  animation: pulse 1.5s infinite;
+}
+
+.select-button.playing {
+  background-color: #2ecc71;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
 }

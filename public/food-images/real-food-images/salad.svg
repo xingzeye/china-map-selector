@@ -1,0 +1,24 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 沙拉碗 -->
+  <path d="M20 60 C20 80, 80 80, 80 60" fill="#E0E0E0" stroke="#BDBDBD" stroke-width="2"/>
+  <path d="M25 45 C25 70, 75 70, 75 45" fill="#F5F5F5" stroke="#E0E0E0" stroke-width="2"/>
+  <!-- 生菜叶 -->
+  <path d="M30 40 C35 35, 45 35, 50 40" fill="#81C784" stroke="#66BB6A" stroke-width="2"/>
+  <path d="M45 35 C50 30, 60 30, 65 35" fill="#81C784" stroke="#66BB6A" stroke-width="2"/>
+  <!-- 番茄 -->
+  <circle cx="35" cy="45" r="4" fill="#EF5350"/>
+  <circle cx="55" cy="45" r="4" fill="#EF5350"/>
+  <!-- 玉米粒 -->
+  <circle cx="45" cy="50" r="2" fill="#FFF176"/>
+  <circle cx="50" cy="48" r="2" fill="#FFF176"/>
+  <circle cx="55" cy="50" r="2" fill="#FFF176"/>
+  <!-- 胡萝卜丝 -->
+  <path d="M40 55 L50 55" stroke="#FF7043" stroke-width="2"/>
+  <path d="M45 52 L55 52" stroke="#FF7043" stroke-width="2"/>
+  <!-- 叉子 -->
+  <path d="M60 30 L70 40" stroke="#90A4AE" stroke-width="2"/>
+  <path d="M65 30 L75 40" stroke="#90A4AE" stroke-width="2"/>
+  <!-- 橄榄油滴 -->
+  <path d="M30 30 Q35 25 40 30" stroke="#FFD54F" stroke-width="1" opacity="0.6"/>
+  <path d="M50 25 Q55 20 60 25" stroke="#FFD54F" stroke-width="1" opacity="0.6"/>
+</svg>

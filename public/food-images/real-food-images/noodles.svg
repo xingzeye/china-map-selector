@@ -1,11 +1,39 @@
 <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 定义渐变 -->
+  <defs>
+    <linearGradient id="soupGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B4513"/>
+      <stop offset="100%" style="stop-color:#A0522D"/>
+    </linearGradient>
+  </defs>
+
   <!-- 碗 -->
-  <path d="M50 100 C50 80 150 80 150 100 L140 140 C140 150 60 150 60 140 L50 100" stroke="#333" stroke-width="4" fill="none"/>
-  <!-- 面条 -->
-  <path d="M70 90 Q85 70 100 90" stroke="#333" stroke-width="2" fill="none"/>
-  <path d="M90 95 Q105 75 120 95" stroke="#333" stroke-width="2" fill="none"/>
-  <path d="M80 100 Q95 80 110 100" stroke="#333" stroke-width="2" fill="none"/>
-  <!-- 筷子 -->
-  <line x1="60" y1="60" x2="120" y2="85" stroke="#333" stroke-width="2"/>
-  <line x1="65" y1="65" x2="125" y2="90" stroke="#333" stroke-width="2"/>
+  <path d="M40 100 C40 100, 100 140, 160 100 L150 160 L50 160 Z" fill="#F5F5F5" stroke="#D3D3D3" stroke-width="2"/>
+  
+  <!-- 汤汁 -->
+  <path d="M45 105 C45 105, 100 145, 155 105 L150 155 L50 155 Z" fill="url(#soupGradient)" opacity="0.8"/>
+  
+  <!-- 面条层 -->
+  <path d="M60 75 C60 75, 100 55, 140 75" stroke="#FFE4B5" stroke-width="6" fill="none"/>
+  <path d="M65 85 C65 85, 100 65, 135 85" stroke="#FFE4B5" stroke-width="6" fill="none"/>
+  <path d="M70 95 C70 95, 100 75, 130 95" stroke="#FFE4B5" stroke-width="6" fill="none"/>
+  <path d="M75 105 C75 105, 100 85, 125 105" stroke="#FFE4B5" stroke-width="6" fill="none"/>
+  
+  <!-- 配料装饰 -->
+  <circle cx="75" cy="90" r="5" fill="#90EE90"/>  <!-- 葱花 -->
+  <circle cx="85" cy="100" r="5" fill="#90EE90"/>  <!-- 葱花 -->
+  
+  <path d="M115 85 L125 95" stroke="#FF6B6B" stroke-width="3"/>  <!-- 辣椒丝 -->
+  <path d="M120 85 L130 95" stroke="#FF6B6B" stroke-width="3"/>  <!-- 辣椒丝 -->
+  
+  <ellipse cx="100" cy="85" rx="12" ry="7" fill="#FFF8DC"/>  <!-- 溏心蛋 -->
+  <ellipse cx="100" cy="85" rx="6" ry="3" fill="#FFD700"/>  <!-- 蛋黄 -->
+  
+  <!-- 肉片 -->
+  <path d="M130 90 Q135 85 140 90" stroke="#FFB6C1" stroke-width="4" fill="none"/>
+  <path d="M125 95 Q130 90 135 95" stroke="#FFB6C1" stroke-width="4" fill="none"/>
+  
+  <!-- 汤面纹理 -->
+  <path d="M60 115 C60 115, 100 125, 140 115" stroke="rgba(139,69,19,0.3)" stroke-width="2" fill="none"/>
+  <path d="M65 125 C65 125, 100 135, 135 125" stroke="rgba(139,69,19,0.3)" stroke-width="2" fill="none"/>
 </svg>

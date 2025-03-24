@@ -1,12 +1,15 @@
-<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
   <!-- 锅底 -->
-  <path d="M40 80 C40 60 160 60 160 80 L150 140 C150 150 50 150 50 140 L40 80" stroke="#333" stroke-width="4" fill="none"/>
+  <path d="M15 35 C15 25 65 25 65 35 L60 60 C60 65 20 65 20 60 L15 35" fill="#E0E0E0" stroke="#333" stroke-width="2"/>
   <!-- 锅沿 -->
-  <path d="M30 80 C30 50 170 50 170 80" stroke="#333" stroke-width="4" fill="none"/>
+  <path d="M10 35 C10 20 70 20 70 35" stroke="#333" stroke-width="2"/>
   <!-- 火焰 -->
-  <path d="M85 100 Q100 70 115 100 Q100 120 85 100" stroke="#FF4D4D" stroke-width="3" fill="none"/>
+  <path d="M35 45 Q40 35 45 45 Q40 50 35 45" fill="#FF4D4D"/>
   <!-- 食材 -->
-  <circle cx="70" cy="90" r="8" stroke="#333" stroke-width="2" fill="none"/>
-  <circle cx="130" cy="90" r="8" stroke="#333" stroke-width="2" fill="none"/>
-  <path d="M90 110 Q100 100 110 110" stroke="#333" stroke-width="2" fill="none"/>
+  <circle cx="25" cy="40" r="3" fill="#8BC34A"/>  <!-- 青菜 -->
+  <circle cx="55" cy="40" r="3" fill="#FF9800"/>  <!-- 肉丸 -->
+  <path d="M35 42 Q40 38 45 42" stroke="#F44336" stroke-width="2"/>  <!-- 肉片 -->
+  <!-- 蒸汽 -->
+  <path d="M30 25 Q35 20 40 25" stroke="#90A4AE" stroke-width="1" opacity="0.6"/>
+  <path d="M40 23 Q45 18 50 23" stroke="#90A4AE" stroke-width="1" opacity="0.6"/>
 </svg>
