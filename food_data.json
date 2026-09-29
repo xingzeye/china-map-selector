@@ -3,144 +3,144 @@
     "id": 1,
     "name": "火锅",
     "description": "热气腾腾的火锅，百搭食材",
-    "image": "/food-images/real-food-images/hotpot.svg"
+    "image": "/food-images/food-art-v2/01-hotpot.webp"
   },
   {
     "id": 2,
     "name": "烤肉",
     "description": "香嫩多汁的烤肉",
-    "image": "/food-images/real-food-images/bbq.svg"
+    "image": "/food-images/food-art-v2/02-bbq.webp"
   },
   {
     "id": 3,
     "name": "烧烤",
     "description": "美味的烤串，撸串必备",
-    "image": "/food-images/real-food-images/skewer.svg"
+    "image": "/food-images/food-art-v2/03-skewers.webp"
   },
   {
     "id": 4,
     "name": "炒菜",
     "description": "家常炒菜，温暖可口",
-    "image": "/food-images/real-food-images/stir-fry.svg"
+    "image": "/food-images/food-art-v2/04-stir-fry.webp"
   },
   {
     "id": 5,
     "name": "麻辣烫",
     "description": "麻辣鲜香的快餐选择",
-    "image": "/food-images/real-food-images/spicy-pot.svg"
+    "image": "/food-images/food-art-v2/05-malatang.webp"
   },
   {
     "id": 6,
     "name": "烤鱼",
     "description": "香辣美味的烤鱼",
-    "image": "/food-images/real-food-images/grilled-fish.svg"
+    "image": "/food-images/food-art-v2/06-grilled-fish.webp"
   },
   {
     "id": 7,
     "name": "蛋糕",
     "description": "甜蜜可口的蛋糕",
-    "image": "/food-images/real-food-images/cake.svg"
+    "image": "/food-images/food-art-v2/07-cake.webp"
   },
   {
     "id": 8,
     "name": "拉面",
     "description": "劲道十足的拉面",
-    "image": "/food-images/real-food-images/noodles.svg"
+    "image": "/food-images/food-art-v2/08-ramen.webp"
   },
   {
     "id": 9,
     "name": "粤菜",
     "description": "精致美味的粤式料理",
-    "image": "/food-images/real-food-images/cantonese.svg"
+    "image": "/food-images/food-art-v2/09-cantonese.webp"
   },
   {
     "id": 10,
     "name": "西餐",
     "description": "浪漫精致的西式料理",
-    "image": "/food-images/real-food-images/western.svg"
+    "image": "/food-images/food-art-v2/10-western.webp"
   },
   {
     "id": 11,
     "name": "日料",
     "description": "新鲜精致的日本料理",
-    "image": "/food-images/real-food-images/japanese.svg"
+    "image": "/food-images/food-art-v2/11-japanese.webp"
   },
   {
     "id": 12,
     "name": "铁锅炖",
     "description": "浓郁鲜美的东北铁锅炖",
-    "image": "/food-images/real-food-images/northeast.svg"
+    "image": "/food-images/food-art-v2/12-iron-stew.webp"
   },
   {
     "id": 13,
     "name": "自助餐",
     "description": "丰富多样的自助美食",
-    "image": "/food-images/real-food-images/dimsum.svg"
+    "image": "/food-images/food-art-v2/13-buffet.webp"
   },
   {
     "id": 14,
     "name": "川菜",
     "description": "麻辣鲜香的四川料理",
-    "image": "/food-images/real-food-images/sichuan.svg"
+    "image": "/food-images/food-art-v2/14-sichuan.webp"
   },
   {
     "id": 15,
     "name": "东北菜",
     "description": "热气腾腾的东北美食",
-    "image": "/food-images/real-food-images/northeast.svg"
+    "image": "/food-images/food-art-v2/15-northeast.webp"
   },
   {
     "id": 16,
     "name": "饺子",
     "description": "皮薄馅大的美味饺子",
-    "image": "/food-images/real-food-images/dumplings.svg"
+    "image": "/food-images/food-art-v2/16-dumplings.webp"
   },
   {
     "id": 17,
     "name": "汉堡",
     "description": "美味多汁的汉堡",
-    "image": "/food-images/real-food-images/burger.svg"
+    "image": "/food-images/food-art-v2/17-burger.webp"
   },
   {
     "id": 18,
     "name": "披萨",
     "description": "香浓美味的意式披萨",
-    "image": "/food-images/real-food-images/pizza.svg"
+    "image": "/food-images/food-art-v2/18-pizza.webp"
   },
   {
     "id": 19,
     "name": "寿司",
     "description": "新鲜美味的日式寿司",
-    "image": "/food-images/real-food-images/sushi.svg"
+    "image": "/food-images/food-art-v2/19-sushi.webp"
   },
   {
     "id": 20,
     "name": "韩料",
     "description": "地道美味的韩国料理",
-    "image": "/food-images/real-food-images/korean.svg"
+    "image": "/food-images/food-art-v2/20-korean.webp"
   },
   {
     "id": 21,
     "name": "海鲜",
     "description": "新鲜美味的海鲜料理",
-    "image": "/food-images/real-food-images/seafood.svg"
+    "image": "/food-images/food-art-v2/21-seafood.webp"
   },
   {
     "id": 22,
     "name": "快餐",
     "description": "便捷美味的快餐选择",
-    "image": "/food-images/real-food-images/fastfood.svg"
+    "image": "/food-images/food-art-v2/22-fastfood.webp"
   },
   {
     "id": 23,
     "name": "面食",
     "description": "各式各样的美味面食",
-    "image": "/food-images/real-food-images/noodle-dishes.svg"
+    "image": "/food-images/food-art-v2/23-noodles.webp"
   },
   {
     "id": 24,
     "name": "沙拉",
     "description": "健康清爽的沙拉",
-    "image": "/food-images/real-food-images/salad.svg"
+    "image": "/food-images/food-art-v2/24-salad.webp"
   }
 ]
