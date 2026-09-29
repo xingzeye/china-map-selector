@@ -1,7 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import ReactECharts from 'echarts-for-react'
 import * as echarts from 'echarts'
 import './App.css'
+
+const visibleMapLabels = new Set(['新疆', '西藏', '青海', '内蒙古', '黑龙江', '四川', '云南', '广东', '山东', '陕西'])
+const publicAsset = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
 
 function App() {
   // 状态管理变量定义
@@ -11,8 +14,8 @@ function App() {
   const [selectedProvince, setSelectedProvince] = useState('') // 当前选中的省份
   const [showProvinceMap, setShowProvinceMap] = useState(false) // 是否显示省份地图
   const [isProvinceMapLoading, setIsProvinceMapLoading] = useState(false) // 省份地图是否加载中
+  const [provinceMapError, setProvinceMapError] = useState(false)
   const [isFinalSelection, setIsFinalSelection] = useState(false) // 是否为最终选择结果
-  const [showInfo, setShowInfo] = useState(false) // 是否显示使用说明
   // 新增状态管理变量
   const [isCitySpinning, setIsCitySpinning] = useState(false) // 是否正在随机选择城市中
   const [selectedCity, setSelectedCity] = useState('') // 当前选中的城市
@@ -21,12 +24,42 @@ function App() {
   const [autoPlayTimer, setAutoPlayTimer] = useState(null) // 轮播定时器
   
   // 美食选择器相关状态
-  const [showFoodSelector, setShowFoodSelector] = useState(false) // 是否显示美食选择器
   const [foodData, setFoodData] = useState([]) // 美食数据
   const [selectedFood, setSelectedFood] = useState(null) // 当前选中的美食
   const [isFoodSpinning, setIsFoodSpinning] = useState(false) // 是否正在随机选择美食
-  const [foodCountdown, setFoodCountdown] = useState(10) // 美食选择倒计时
+  const [foodCountdown, setFoodCountdown] = useState(4) // 美食选择倒计时
   const [showFoodResult, setShowFoodResult] = useState(false) // 是否显示最终选中的美食结果
+  const closeResultRef = useRef(null)
+  const provinceRequestId = useRef(0)
+  const citySpinTimeoutRef = useRef(null)
+  const cityCountdownTimerRef = useRef(null)
+  const foodSpinTimeoutRef = useRef(null)
+  const foodCountdownTimerRef = useRef(null)
+  const autoPlayTimerRef = useRef(null)
+
+  useEffect(() => () => {
+    clearTimeout(citySpinTimeoutRef.current)
+    clearInterval(cityCountdownTimerRef.current)
+    clearTimeout(foodSpinTimeoutRef.current)
+    clearInterval(foodCountdownTimerRef.current)
+    clearInterval(autoPlayTimerRef.current)
+  }, [])
+
+  useEffect(() => {
+    if (!showFoodResult) return undefined
+
+    const previousFocus = document.activeElement
+    closeResultRef.current?.focus()
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') setShowFoodResult(false)
+    }
+    document.addEventListener('keydown', closeOnEscape)
+
+    return () => {
+      document.removeEventListener('keydown', closeOnEscape)
+      previousFocus?.focus?.()
+    }
+  }, [showFoodResult])
 
   // 省份编码映射表，用于获取省份地图数据
   const provinceCodeMap = {
@@ -193,7 +226,7 @@ function App() {
   // 组件加载时初始化中国地图数据和美食数据
   useEffect(() => {
     // 从本地获取中国地图GeoJSON数据
-    fetch('/china-map-selector/china.json')
+    fetch(publicAsset('china.json'))
       .then(response => {
         if (!response.ok) {
           throw new Error('网络响应异常')
@@ -222,7 +255,7 @@ function App() {
       })
       
     // 加载美食数据
-    fetch('/china-map-selector/food_data.json')
+    fetch(publicAsset('food_data.json'))
       .then(response => {
         if (!response.ok) {
           throw new Error('加载美食数据失败')
@@ -261,19 +294,22 @@ function App() {
 
   // 加载省份地图数据
   const loadProvinceMap = (province) => {
+    const requestId = ++provinceRequestId.current
     // 获取省份编码
     const provinceCode = provinceCodeMap[province]
     if (!provinceCode) {
       setIsProvinceMapLoading(false)
+      setProvinceMapError(true)
       return
     }
 
     // 设置加载状态
     setIsProvinceMapLoading(true)
+    setProvinceMapError(false)
     setShowProvinceMap(true)
 
     // 从本地加载省份地图GeoJSON数据
-    fetch(`/china-map-selector/province-maps/${province}.json`)
+    fetch(publicAsset(`province-maps/${province}.json`))
       .then(response => {
         if (!response.ok) {
           throw new Error('网络响应异常')
@@ -281,6 +317,7 @@ function App() {
         return response.json()
       })
       .then(geoJson => {
+        if (requestId !== provinceRequestId.current) return
         if (!geoJson || !geoJson.features) {
           throw new Error('地图数据格式异常')
         }
@@ -289,86 +326,76 @@ function App() {
         
         // 设置省份地图配置
         setProvinceMapOption({
-          backgroundColor: '#f5f8fa', // 背景色
-          title: {
-            text: `${province}地图`, // 标题文本
-            left: 'center', // 标题居中
-            top: 20,
-            textStyle: {
-              color: '#2c3e50',
-              fontSize: 22,
-              fontWeight: 'bold',
-              textShadow: '2px 2px 4px rgba(0,0,0,0.1)' // 文字阴影
-            }
-          },
+          backgroundColor: 'transparent',
           tooltip: {
-            trigger: 'item', // 提示框触发类型
-            formatter: '{b}', // 提示框格式
-            backgroundColor: 'rgba(44,62,80,0.85)',
-            borderColor: '#fff',
-            borderWidth: 2,
-            padding: [8, 12],
+            trigger: 'item',
+            formatter: '{b}',
+            backgroundColor: '#102c39',
+            borderColor: '#77c9c6',
+            borderWidth: 1,
+            padding: [9, 13],
             textStyle: {
-              color: '#fff',
-              fontSize: 14
+              color: '#f4fbf9',
+              fontSize: 13
             }
           },
           series: [{
             name: province,
-            type: 'map', // 图表类型为地图
-            map: province, // 使用注册的省份地图
-            roam: true, // 允许缩放和平移
-            scaleLimit: {
-              min: 1, // 最小缩放比例
-              max: 10 // 最大缩放比例
-            },
-            zoom: 1.2, // 初始缩放比例
+            type: 'map',
+            map: province,
+            roam: true,
+            scaleLimit: { min: 0.85, max: 5 },
+            zoom: 1,
             label: {
-              show: true, // 显示地名
-              color: '#2c3e50',
-              fontSize: 12,
-              fontWeight: 500
+              show: false,
+              color: '#d7f1eb',
+              fontSize: 10,
+              fontWeight: 600,
+              textBorderColor: '#123d4a',
+              textBorderWidth: 2
             },
             itemStyle: {
-              areaColor: '#e8f4f8', // 区域颜色
-              borderColor: '#a3d8f4', // 边界颜色
-              borderWidth: 1.5,
-              shadowColor: 'rgba(0,0,0,0.15)',
-              shadowBlur: 8
+              areaColor: new echarts.graphic.LinearGradient(0, 0, 1, 1, [
+                { offset: 0, color: '#287f8d' },
+                { offset: 1, color: '#125166' }
+              ]),
+              borderColor: '#8adad5',
+              borderWidth: 1.2,
+              shadowColor: '#082633',
+              shadowBlur: 12,
+              shadowOffsetY: 8
             },
             emphasis: {
-              // 鼠标悬停时的样式
               itemStyle: {
-                areaColor: '#ffd6a5',
-                borderColor: '#ffab4c',
-                borderWidth: 2.5,
-                shadowColor: 'rgba(255, 171, 76, 0.7)',
-                shadowBlur: 35,
-                shadowOffsetX: 2,
-                shadowOffsetY: 2
+                areaColor: '#e7b66e',
+                borderColor: '#fff1cf',
+                borderWidth: 2,
+                shadowColor: 'rgba(246, 185, 98, 0.48)',
+                shadowBlur: 18,
+                shadowOffsetY: 8
               },
               label: {
                 show: true,
-                color: '#2c3e50',
-                fontSize: 14,
+                color: '#173341',
+                fontSize: 12,
                 fontWeight: 'bold'
               }
             },
-            // 地图动画设置
             animation: true,
-            animationDuration: 600,
-            animationEasing: 'elasticOut',
-            animationDelay: (idx) => idx * 100,
-            animationDurationUpdate: 450,
-            animationEasingUpdate: 'circularInOut'
+            animationDuration: 500,
+            animationEasing: 'cubicOut',
+            animationDurationUpdate: 320
           }]
         })
         // 结束加载状态
         setIsProvinceMapLoading(false)
+        setProvinceMapError(false)
       })
       .catch(error => {
+        if (requestId !== provinceRequestId.current) return
         console.error('加载省份地图失败:', error)
         setIsProvinceMapLoading(false)
+        setProvinceMapError(true)
       })
   }
 
@@ -412,25 +439,19 @@ function App() {
       return nameMap[name] || name
     }
     
-    // 最终选中状态的颜色 - 蓝紫色系
+    // 暖金色选中态与深色地图形成清晰对比
     const highlightColors = {
-      areaColor: '#7986cb',
-      borderColor: '#5c6bc0',
-      shadowColor: 'rgba(92, 107, 192, 0.8)'
+      areaColor: '#f0bb70',
+      borderColor: '#fff1ca',
+      shadowColor: 'rgba(245, 187, 105, 0.6)'
     }
     
-    // 随机选择过程中的颜色组 - 柔和多彩的配色
+    // 随机探索时的过渡色
     const processingColors = [
-      { areaColor: '#4dabf7', borderColor: '#339af0', shadowColor: 'rgba(77, 171, 247, 0.8)' }, // 蓝色
-      { areaColor: '#38d9a9', borderColor: '#20c997', shadowColor: 'rgba(56, 217, 169, 0.8)' }, // 绿色
-      { areaColor: '#9775fa', borderColor: '#845ef7', shadowColor: 'rgba(151, 117, 250, 0.8)' }, // 紫色
-      { areaColor: '#ffa94d', borderColor: '#fd7e14', shadowColor: 'rgba(255, 169, 77, 0.8)' }, // 橙色
-      { areaColor: '#74c0fc', borderColor: '#4dabf7', shadowColor: 'rgba(116, 192, 252, 0.8)' }, // 浅蓝色
-      { areaColor: '#66d9e8', borderColor: '#22b8cf', shadowColor: 'rgba(102, 217, 232, 0.8)' }, // 青色
-      { areaColor: '#da77f2', borderColor: '#cc5de8', shadowColor: 'rgba(218, 119, 242, 0.8)' }, // 粉紫色
-      { areaColor: '#69db7c', borderColor: '#51cf66', shadowColor: 'rgba(105, 219, 124, 0.8)' }, // 翠绿色
-      { areaColor: '#a9e34b', borderColor: '#94d82d', shadowColor: 'rgba(169, 227, 75, 0.8)' }, // 黄绿色
-      { areaColor: '#ffc078', borderColor: '#ffa94d', shadowColor: 'rgba(255, 192, 120, 0.8)' }  // 浅橙色
+      { areaColor: '#8bd5cd', borderColor: '#d9fff3', shadowColor: 'rgba(139, 213, 205, 0.5)' },
+      { areaColor: '#90b9e5', borderColor: '#deefff', shadowColor: 'rgba(144, 185, 229, 0.5)' },
+      { areaColor: '#e5bd86', borderColor: '#fff1d6', shadowColor: 'rgba(229, 189, 134, 0.5)' },
+      { areaColor: '#a6d69a', borderColor: '#e8ffdd', shadowColor: 'rgba(166, 214, 154, 0.5)' }
     ]
     
     // 随机选择一种颜色或使用高亮颜色
@@ -441,75 +462,69 @@ function App() {
     
     // 设置中国地图的配置
     setMapOption({
-      backgroundColor: '#f5f8fa', // 背景色
-      title: {
-        text: '中国地图',
-        left: 'center', // 标题居中
-        top: 20,
-        textStyle: {
-          color: '#2c3e50',
-          fontSize: 24,
-          fontWeight: 'bold',
-          textShadow: '2px 2px 4px rgba(0,0,0,0.1)' // 文字阴影
-        }
-      },
+      backgroundColor: 'transparent',
       tooltip: {
-        trigger: 'item', // 提示框触发类型
-        formatter: '{b}', // 提示框格式
-        backgroundColor: 'rgba(44,62,80,0.85)',
-        borderColor: '#fff',
-        borderWidth: 2,
-        padding: [8, 12],
+        trigger: 'item',
+        formatter: '{b}',
+        backgroundColor: '#102c39',
+        borderColor: '#77c9c6',
+        borderWidth: 1,
+        padding: [9, 13],
         textStyle: {
-          color: '#fff',
-          fontSize: 14
+          color: '#f4fbf9',
+          fontSize: 13
         }
       },
       series: [{
         name: '中国地图',
-        type: 'map', // 图表类型为地图
-        map: 'china', // 使用注册的中国地图
-        roam: true, // 允许缩放和平移
-        scaleLimit: {
-          min: 1.5, // 最小缩放比例，放大地图
-          max: 5 // 最大缩放比例
-        },
-        zoom: 1.5, // 初始缩放比例，放大地图
-        selectedMode: true, // 允许选择模式
+        type: 'map',
+        map: 'china',
+        roam: true,
+        scaleLimit: { min: 0.85, max: 4 },
+        zoom: 1.28,
+        selectedMode: false,
         label: {
-          show: true, // 显示地名
-          color: '#2c3e50',
+          show: true,
+          formatter: ({ name }) => {
+            const shortName = provinceNameMap[name] || name
+            return visibleMapLabels.has(shortName) || shortName === province ? shortName : ''
+          },
+          color: '#ddf5ef',
           fontSize: 10,
-          fontWeight: 500
+          fontWeight: 600,
+          textBorderColor: '#103c49',
+          textBorderWidth: 2
         },
         itemStyle: {
-          areaColor: '#e8f4f8', // 区域颜色
-          borderColor: '#a3d8f4', // 边界颜色
-          borderWidth: 1.5,
-          shadowColor: 'rgba(0,0,0,0.15)',
-          shadowBlur: 8
+          areaColor: new echarts.graphic.LinearGradient(0, 0, 1, 1, [
+            { offset: 0, color: '#287f8d' },
+            { offset: 1, color: '#125166' }
+          ]),
+          borderColor: '#8adad5',
+          borderWidth: 1.1,
+          shadowColor: '#041d2a',
+          shadowBlur: 16,
+          shadowOffsetY: 11
         },
         emphasis: {
-          // 鼠标悬停时的样式
           disabled: false,
           itemStyle: {
-            areaColor: '#ffd6a5',
-            borderColor: '#ffab4c',
-            borderWidth: 2.5,
-            shadowColor: 'rgba(255, 171, 76, 0.7)',
-            shadowBlur: 35,
-            shadowOffsetX: 2,
-            shadowOffsetY: 2
+            areaColor: '#f0bb70',
+            borderColor: '#fff1ca',
+            borderWidth: 2,
+            shadowColor: 'rgba(245, 187, 105, 0.65)',
+            shadowBlur: 20,
+            shadowOffsetY: 10
           },
           label: {
             show: true,
-            color: '#2c3e50',
-            fontSize: 14,
+            color: '#173341',
+            fontSize: 13,
             fontWeight: 'bold'
           }
         },
         select: {
-          disabled: true // 禁用选择效果，使用自定义高亮效果
+          disabled: true
         },
         // 如果有选中省份，则添加该省份的特殊样式配置
         data: province ? [{
@@ -520,9 +535,8 @@ function App() {
             borderColor: randomColor.borderColor,
             borderWidth: 2,
             shadowColor: randomColor.shadowColor,
-            shadowBlur: 45,
-            shadowOffsetX: 3,
-            shadowOffsetY: 3
+            shadowBlur: 22,
+            shadowOffsetY: 13
           },
           emphasis: {
             itemStyle: {
@@ -530,24 +544,23 @@ function App() {
               borderColor: randomColor.borderColor,
               borderWidth: 2.5,
               shadowColor: randomColor.shadowColor,
-              shadowBlur: 50
+              shadowBlur: 25,
+              shadowOffsetY: 11
             }
           },
           label: {
             show: true,
-            color: '#fff',
-            fontSize: shouldHighlight ? 18 : 16, // 最终选中状态字体更大
+            color: '#173341',
+            fontSize: shouldHighlight ? 15 : 13,
             fontWeight: 'bold',
-            textShadow: '2px 2px 6px rgba(0,0,0,0.4)' // 文字阴影
+            textBorderWidth: 0
           }
         }] : [], // 没有选中省份时为空数组
         // 地图动画设置
         animation: true,
-        animationDuration: 600,
-        animationEasing: 'elasticOut',
-        animationDelay: (idx) => idx * 100,
-        animationDurationUpdate: 450,
-        animationEasingUpdate: 'circularInOut'
+        animationDuration: 500,
+        animationEasing: 'cubicOut',
+        animationDurationUpdate: 320
       }]
     })
   }
@@ -572,7 +585,7 @@ function App() {
   // 在处理地图点击事件中，添加显示城市选择器的逻辑
   const handleMapClick = (params) => {
     // 如果正在随机选择城市中，则不处理点击事件
-    if (isCitySpinning) return
+    if (isCitySpinning || isAutoPlaying) return
     
     // 获取点击的区域名称
     const clickedAreaName = params.name
@@ -597,7 +610,9 @@ function App() {
   const startAutoPlay = () => {
     if (isAutoPlaying) return
     setIsAutoPlaying(true)
+    setIsFinalSelection(false)
     setShowProvinceMap(true)
+    setSelectedCity('北京市')
     
     const provinces = Object.keys(provinceCodeMap)
     let currentIndex = 0
@@ -610,9 +625,6 @@ function App() {
     
     // 省份轮播
     const timer = setInterval(() => {
-      // 等待上一个省份地图加载完成
-      if (isProvinceMapLoading) return
-      
       currentIndex = (currentIndex + 1) % provinces.length
       currentProvince = provinces[currentIndex]
       
@@ -628,13 +640,24 @@ function App() {
         const randomCity = citiesInProvince[Math.floor(Math.random() * citiesInProvince.length)]
         setSelectedCity(randomCity.name)
       }
-    }, 500) // 每0.5秒切换一次
+    }, 1800)
     
+    autoPlayTimerRef.current = timer
     setAutoPlayTimer(timer)
   }
 
+  const stopAutoPlay = () => {
+    clearInterval(autoPlayTimerRef.current)
+    autoPlayTimerRef.current = null
+    setAutoPlayTimer(null)
+    setIsAutoPlaying(false)
+    provinceRequestId.current += 1
+    setIsFinalSelection(true)
+    updateMapOption(selectedProvince, true)
+  }
+
   // 添加倒计时状态
-  const [countdown, setCountdown] = useState(20)
+  const [countdown, setCountdown] = useState(5)
 
   // 随机选择城市函数
   const handleRandomSelectCity = () => {
@@ -644,10 +667,14 @@ function App() {
     // 设置状态为选择中
     setIsCitySpinning(true)
     setSelectedCity('')
-    setCountdown(20) // 初始化倒计时
+    setCountdown(5)
+    setIsFinalSelection(false)
+    setShowProvinceMap(false)
+    setIsProvinceMapLoading(false)
+    provinceRequestId.current += 1
     
     // 动画总步数
-    const maxCount = 200
+    const maxCount = 50
     let currentStep = 0
     
     // 随机选择一个城市
@@ -664,13 +691,13 @@ function App() {
     
     // 动画开始时间
     const startTime = Date.now()
-    const totalDuration = 20000 // 20秒
+    const totalDuration = 5000
     
     // 倒计时定时器
-    const countdownTimer = setInterval(() => {
+    cityCountdownTimerRef.current = setInterval(() => {
       setCountdown(prev => {
         if (prev <= 1) {
-          clearInterval(countdownTimer)
+          clearInterval(cityCountdownTimerRef.current)
           return 0
         }
         return prev - 1
@@ -699,16 +726,15 @@ function App() {
       }
       
       // 更新选中城市
-      setSelectedCity(`${currentCity.name} (${countdown}秒)`)
+      setSelectedCity(`${currentCity.name} (${Math.max(1, Math.ceil((totalDuration - elapsedTime) / 1000))}秒)`)
       
       // 如果还需要同时显示该城市所在的省份
       if (currentCity.province) {
         setSelectedProvince(currentCity.province)
-        setIsFinalSelection(true)
         updateMapOption(currentCity.province, showFinalCity && currentStep >= maxCount - 10)
       }
       
-      // 如果还未到20秒，继续动画
+      // 在五秒内继续动画
       if (elapsedTime < totalDuration) {
         currentStep++
         
@@ -729,17 +755,16 @@ function App() {
         }
         
         // 设置下一步动画的延时
-        setTimeout(animate, duration)
+        citySpinTimeoutRef.current = setTimeout(animate, duration)
       } else {
         // 动画结束，最终选择
-        clearInterval(countdownTimer) // 清除倒计时定时器
+        clearInterval(cityCountdownTimerRef.current)
         setSelectedCity(finalCity.name)
         setSelectedProvince(finalCity.province)
+        setIsFinalSelection(true)
         updateMapOption(finalCity.province, true)
         setIsCitySpinning(false)
-        setCountdown(0) // 重置倒计时
-        // 加载省份地图
-        loadProvinceMap(finalCity.province)
+        setCountdown(0)
       }
     }
 
@@ -749,33 +774,22 @@ function App() {
 
   // 清除当前选择并停止轮播
   const handleClearSelection = () => {
-    // 停止轮播定时器
-    if (autoPlayTimer) {
-      clearInterval(autoPlayTimer)
-      setAutoPlayTimer(null)
-      // 保持当前选中的省份和城市
-      setIsFinalSelection(true)
-      // 加载省份地图
-      if (selectedProvince) {
-        loadProvinceMap(selectedProvince)
-      }
-    } else {
-      // 如果不是从轮播状态停止，则重置所有状态
-      setSelectedProvince('')
-      setSelectedCity('')
-      setIsFinalSelection(false)
-      setShowProvinceMap(false)
-    }
-    
+    clearTimeout(citySpinTimeoutRef.current)
+    clearInterval(cityCountdownTimerRef.current)
+    clearInterval(autoPlayTimerRef.current)
+    autoPlayTimerRef.current = null
+    provinceRequestId.current += 1
+    setAutoPlayTimer(null)
+    setSelectedProvince('')
+    setSelectedCity('')
+    setIsFinalSelection(false)
+    setShowProvinceMap(false)
+    setIsProvinceMapLoading(false)
+    setProvinceMapError(false)
     setIsAutoPlaying(false)
     setIsCitySpinning(false)
-    
-    // 更新地图显示
-    if (selectedProvince) {
-      updateMapOption(selectedProvince, true)
-    } else {
-      updateMapOption()
-    }
+    setCountdown(0)
+    updateMapOption()
   }
 
   // 随机选择美食函数
@@ -786,11 +800,11 @@ function App() {
     // 设置状态为选择中
     setIsFoodSpinning(true)
     setSelectedFood(null)
-    setFoodCountdown(10) // 初始化倒计时为10秒
+    setFoodCountdown(4)
     setShowFoodResult(false)
     
     // 动画总步数
-    const maxCount = 100
+    const maxCount = 40
     let currentStep = 0
     
     // 随机选择一个美食
@@ -807,13 +821,13 @@ function App() {
     
     // 动画开始时间
     const startTime = Date.now()
-    const totalDuration = 10000 // 10秒
+    const totalDuration = 4000
     
     // 倒计时定时器
-    const countdownTimer = setInterval(() => {
+    foodCountdownTimerRef.current = setInterval(() => {
       setFoodCountdown(prev => {
         if (prev <= 1) {
-          clearInterval(countdownTimer)
+          clearInterval(foodCountdownTimerRef.current)
           return 0
         }
         return prev - 1
@@ -844,7 +858,7 @@ function App() {
       // 更新选中美食
       setSelectedFood(currentFood)
       
-      // 如果还未到10秒，继续动画
+      // 在四秒内继续动画
       if (elapsedTime < totalDuration) {
         currentStep++
         
@@ -865,10 +879,10 @@ function App() {
         }
         
         // 设置下一步动画的延时
-        setTimeout(animate, duration)
+        foodSpinTimeoutRef.current = setTimeout(animate, duration)
       } else {
         // 动画结束，最终选择
-        clearInterval(countdownTimer) // 清除倒计时定时器
+        clearInterval(foodCountdownTimerRef.current)
         setSelectedFood(finalFood)
         setIsFoodSpinning(false)
         setFoodCountdown(0) // 重置倒计时
@@ -880,8 +894,20 @@ function App() {
     animate()
   }
 
+  const stopFoodSelection = () => {
+    clearTimeout(foodSpinTimeoutRef.current)
+    clearInterval(foodCountdownTimerRef.current)
+    setIsFoodSpinning(false)
+    setFoodCountdown(0)
+    setSelectedFood(null)
+  }
+
   // 切换页面函数
   const switchPage = (page) => {
+    if (page === currentPage) return
+    if (isCitySpinning) handleClearSelection()
+    if (autoPlayTimer) stopAutoPlay()
+    if (isFoodSpinning) stopFoodSelection()
     setCurrentPage(page)
   }
 
@@ -890,174 +916,179 @@ function App() {
     setShowFoodResult(false)
   }
 
-  // 渲染组件
   return (
-    <div className="container">
-      {/* 页面头部 */}
-      <header className="app-header">
-        <h1>{currentPage === 'map' ? '中国地图省份城市选择器' : '美食选择器'}</h1>
-        {currentPage === 'food' && <p className="food-description">随机选择一种美食，发现舌尖上的世界！</p>}
-        {/* 版权信息 */}
-        <div className="copyright">
-          版权所有：xingzeye<br />
-          Northeast Electric Power University
+    <div className="app-shell">
+      <header className="site-header">
+        <div className="brand">
+          <span className="brand-mark" aria-hidden="true">山</span>
+          <span className="brand-copy">
+            <span className="brand-overline">CHINA ATLAS</span>
+            <strong>山海之间</strong>
+          </span>
         </div>
-        {/* 导航栏 */}
-        <div className="nav-tabs">
-          <button 
-            className={`nav-tab ${currentPage === 'map' ? 'active' : ''}`}
-            onClick={() => switchPage('map')}
-          >
-            地图选择器
+
+        <nav className="nav-tabs" aria-label="功能导航">
+          <button type="button" className={`nav-tab ${currentPage === 'map' ? 'active' : ''}`} aria-pressed={currentPage === 'map'} onClick={() => switchPage('map')}>
+            探索地图
           </button>
-          <button 
-            className={`nav-tab ${currentPage === 'food' ? 'active' : ''}`}
-            onClick={() => switchPage('food')}
-          >
-            美食选择器
+          <button type="button" className={`nav-tab ${currentPage === 'food' ? 'active' : ''}`} aria-pressed={currentPage === 'food'} onClick={() => switchPage('food')}>
+            风味图鉴
           </button>
-        </div>
+        </nav>
+
+        <span className="header-note">一张地图 · 无限可能</span>
       </header>
 
-      {/* 地图选择器页面 */}
-      {currentPage === 'map' && (
-        <>
-          {/* 地图容器 */}
-          <div className="echarts-container">
-            {/* 中国地图 */}
-            <div className="china-map-container">
-              <ReactECharts
-                option={mapOption}
-                style={{ height: '100%', width: '100%' }}
-                onEvents={{
-                  'click': handleMapClick
-                }}
-              />
-            </div>
-            
-            {/* 省份地图 */}
-            {showProvinceMap && (
-              <div className="province-map-container visible">
-                {isProvinceMapLoading ? (
-                  <div className="province-map-loading">
-                    {/*正在加载地图...*/}
-                  </div>
-                ) : (
+      <main className="site-main">
+        <section className="page-intro">
+          <div>
+            <p className="eyebrow">INTERACTIVE CHINA ATLAS <span>/</span> 探索中国</p>
+            <h1>{currentPage === 'map' ? <>下一站，<em>从这里出发。</em></> : <>尝一口，<em>发现新风味。</em></>}</h1>
+            <p className="intro-description">
+              {currentPage === 'map' ? '轻触地图上的省份，看看城市与风景；或者让一次随机选择，带你认识新的目的地。' : '从熟悉的味道到新的灵感，翻开这份轻松的美食图鉴，让今天的选择更有趣。'}
+            </p>
+          </div>
+          <div className="intro-count" aria-label={currentPage === 'map' ? '31个可探索省级区域' : `${foodData.length}道美食灵感`}>
+            <strong>{currentPage === 'map' ? '31' : String(foodData.length).padStart(2, '0')}</strong>
+            <span>{currentPage === 'map' ? '个可探索地区' : '道风味灵感'}</span>
+          </div>
+        </section>
+
+        {currentPage === 'map' && (
+          <section className="explorer-layout" aria-label="地图探索区">
+            <article className="map-stage">
+              <div className="stage-header">
+                <div>
+                  <p className="section-index">01 / EXPLORE</p>
+                  <h2>中国地理图</h2>
+                </div>
+                <span className="stage-status"><span aria-hidden="true" />可交互地图</span>
+              </div>
+              <div className="map-surface">
+                <span className="map-compass" aria-hidden="true">N <span>↑</span></span>
+                <span className="map-watermark" aria-hidden="true">CHINA · ATLAS</span>
+                <div className="china-map-container" aria-label="中国地图，点击省份查看详情">
                   <ReactECharts
-                    option={provinceMapOption}
+                    option={mapOption}
                     style={{ height: '100%', width: '100%' }}
+                    onEvents={{ click: handleMapClick }}
                   />
-                )}
+                </div>
               </div>
-            )}
-          </div>
+              <div className="stage-footer">
+                <span>拖动或滚轮浏览 · 点击省份查看详情</span>
+                <span className="footer-coordinate">MAP / CN</span>
+              </div>
+            </article>
 
-          {/* 按钮组 */}
-          <div className="button-group">
-            {/* 随机选择按钮 */}
-            <button
-              className={`select-button ${isCitySpinning ? 'spinning' : ''}`}
-              onClick={isCitySpinning ? handleClearSelection : handleRandomSelectCity}
-              disabled={isAutoPlaying}
-            >
-              {isCitySpinning ? `随机选择中 (${countdown}秒)` : '随机选择'}
-            </button>
+            <aside className="explore-sidebar">
+              <section className="action-panel">
+                <p className="section-index">02 / DISCOVER</p>
+                <h2>下一站，交给地图</h2>
+                <p className="panel-description">自己挑一座城市，或开启一次充满惊喜的随机探索。</p>
+                <div className="button-group">
+                  <button type="button" className={`select-button ${isCitySpinning ? 'spinning' : ''}`} onClick={isCitySpinning ? handleClearSelection : handleRandomSelectCity} disabled={isAutoPlaying}>
+                    <span aria-hidden="true">✦</span> {isCitySpinning ? `停止探索 · ${countdown}秒` : '随机探索'}
+                  </button>
+                  <button type="button" className={`tour-button ${isAutoPlaying ? 'playing' : ''}`} onClick={isAutoPlaying ? stopAutoPlay : startAutoPlay} disabled={isCitySpinning}>
+                    <span aria-hidden="true">{isAutoPlaying ? 'Ⅱ' : '▷'}</span> {isAutoPlaying ? '停止轮播' : '省份轮播'}
+                  </button>
+                </div>
+                {(selectedProvince || selectedCity || isAutoPlaying) && (
+                  <button type="button" className="clear-button" onClick={handleClearSelection}>重新选择 <span aria-hidden="true">↗</span></button>
+                )}
+              </section>
 
-            {/* 轮播按钮 */}
-            <button
-              className={`select-button ${isAutoPlaying ? 'playing' : ''}`}
-              onClick={isAutoPlaying ? handleClearSelection : startAutoPlay}
-              disabled={isCitySpinning}
-            >
-              {isAutoPlaying ? '停止轮播' : '开始轮播'}
-            </button>
-          </div>
+              <section className={`selection-panel ${selectedProvince ? 'has-selection' : ''}`} aria-live="polite">
+                <div className="panel-row"><p className="section-index">当前目的地</p><span className="selection-dot" aria-hidden="true" /></div>
+                <h2>{selectedProvince || '等待一次点击'}</h2>
+                <p>{selectedCity ? `已选城市 · ${selectedCity}` : selectedProvince ? '在下方选择一座城市，继续你的探索。' : '地图上的每一个区域，都可能是下一段旅程的开始。'}</p>
+              </section>
 
-          {/* 重新选择按钮 */}
-          {(selectedProvince || selectedCity || isAutoPlaying || isCitySpinning) && (
-            <button
-              className="clear-button"
-              onClick={handleClearSelection}
-              disabled={isCitySpinning}
-            >
-              重新选择
-            </button>
-          )}
-          {/* 城市选择器 */}
-          {showCitySelector && selectedProvince && (
-            <div className="city-selector">
-              <h3>{selectedProvince}的城市：</h3>
-              <div className="city-list">
-                {getProvinceCities().length > 0 ? (
-                  getProvinceCities().map((city, index) => (
-                    <button 
-                      key={index} 
-                      className={`city-item ${selectedCity === city ? 'selected' : ''}`}
-                      onClick={() => handleCitySelect(city)}
-                    >
-                      {city}
-                    </button>
-                  ))
+              <section className="detail-panel">
+                <div className="panel-row"><p className="section-index">03 / LOCAL VIEW</p><span className="detail-tag">省份详情</span></div>
+                {showProvinceMap && selectedProvince ? (
+                  <>
+                    <h3>{selectedProvince} · 城市一览</h3>
+                    <div className="province-map-container">
+                      {!provinceMapError && provinceMapOption.series && <ReactECharts option={provinceMapOption} style={{ height: '100%', width: '100%' }} />}
+                      {isProvinceMapLoading && <div className="province-map-loading">地图加载中…</div>}
+                      {provinceMapError && <div className="province-map-error" role="status">地图暂时无法加载<button type="button" onClick={() => loadProvinceMap(selectedProvince)}>重试</button></div>}
+                    </div>
+                    {showCitySelector && !isCitySpinning && !isAutoPlaying && (
+                      <div className="city-list" aria-label={`${selectedProvince}城市列表`}>
+                        {getProvinceCities().length > 0 ? getProvinceCities().map((city) => (
+                          <button type="button" key={city} className={`city-item ${selectedCity === city ? 'selected' : ''}`} onClick={() => handleCitySelect(city)} disabled={isCitySpinning}>
+                            {city}
+                          </button>
+                        )) : <p className="empty-city">暂无城市数据</p>}
+                      </div>
+                    )}
+                  </>
                 ) : (
-                  <p>暂无城市数据</p>
-                )}
-              </div>
-            </div>
-          )}
-        </>
-      )}
-
-      {/* 美食选择器页面 */}
-      {currentPage === 'food' && (
-        <div className="food-selector-container">
-          
-          {/* 美食卡片网格 */}
-          <div className="food-grid">
-            {foodData.map((food) => (
-              <div 
-                key={food.id} 
-                className={`food-card ${selectedFood?.id === food.id ? 'selected' : ''}`}
-                onClick={() => !isFoodSpinning && setSelectedFood(food)}
-              >
-                <div className="food-image-container">
-                  <img src={`/china-map-selector${food.image}`} alt={food.name} className="food-image" />
-                </div>
-                <div className="food-info">
-                  <h3 className="food-name">{food.name}</h3>
-                  <p className="food-province">{food.province}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          
-          {/* 美食选择按钮 */}
-          <div className="food-button-group">
-            <button 
-              className="food-select-button"
-              onClick={handleRandomSelectFood}
-              disabled={isFoodSpinning}
-            >
-              {isFoodSpinning ? `随机选择中 (${foodCountdown}秒)` : '随机选择美食'}
-            </button>
-          </div>
-          
-          {/* 美食结果弹窗 */}
-          {showFoodResult && selectedFood && (
-            <div className="food-result-modal">
-              <div className="food-result-content">
-                <h2>恭喜您选中了：</h2>
-                <div className="selected-food-card">
-                  <div className="selected-food-image-container">
-                    <img src={`/china-map-selector${selectedFood.image}`} alt={selectedFood.name} className="selected-food-image" />
+                  <div className="detail-empty">
+                    <span className="empty-symbol" aria-hidden="true">◇</span>
+                    <h3>发现一个地方</h3>
+                    <p>选择地图上的省份后，这里会展开当地地图与城市。</p>
                   </div>
-                  <h3>{selectedFood.name}</h3>
-                  <p className="selected-food-province">{selectedFood.province}</p>
-                  <p className="selected-food-description">{selectedFood.description}</p>
+                )}
+              </section>
+            </aside>
+          </section>
+        )}
+
+        {currentPage === 'food' && (
+          <section className="food-layout" aria-label="风味图鉴">
+            <aside className="food-feature">
+              <p className="section-index">01 / FOOD NOTES</p>
+              <h2>让味蕾<br />决定路线。</h2>
+              <p className="panel-description">不知道吃什么？从这份图鉴里挑一道，或让随机选择替你做决定。</p>
+              <button type="button" className="food-select-button" onClick={isFoodSpinning ? stopFoodSelection : handleRandomSelectFood} disabled={foodData.length === 0}>
+                <span aria-hidden="true">✦</span> {isFoodSpinning ? `停止挑选 · ${foodCountdown}秒` : '随机挑一道'}
+              </button>
+              {selectedFood && (
+                <div className="food-current" aria-live={isFoodSpinning ? 'off' : 'polite'}>
+                  <span className="food-current-label">此刻的风味</span>
+                  <div className="food-current-body">
+                    <img src={publicAsset(selectedFood.image)} alt="" decoding="async" />
+                    <div><strong>{selectedFood.name}</strong><p>{selectedFood.description}</p></div>
+                  </div>
                 </div>
-                <button className="close-result-button" onClick={closeFoodResult}>关闭</button>
+              )}
+            </aside>
+            <div className="food-gallery">
+              <div className="food-gallery-header"><div><p className="section-index">02 / THE COLLECTION</p><h2>风味图鉴</h2></div><span>共 {foodData.length} 道</span></div>
+              <div className="food-grid">
+                {foodData.map((food) => (
+                  <button type="button" key={food.id} className={`food-card ${selectedFood?.id === food.id ? 'selected' : ''}`} aria-pressed={selectedFood?.id === food.id} onClick={() => !isFoodSpinning && setSelectedFood(food)} disabled={isFoodSpinning}>
+                    <span className="food-image-container">
+                      <span className="food-card-number" aria-hidden="true">{String(food.id).padStart(2, '0')}</span>
+                      <img src={publicAsset(food.image)} alt="" className="food-image" loading="lazy" decoding="async" />
+                    </span>
+                    <span className="food-info">
+                      <span className="food-copy"><strong className="food-name">{food.name}</strong><span className="food-description">{food.description}</span></span>
+                      <span className="food-card-arrow" aria-hidden="true">↗</span>
+                    </span>
+                  </button>
+                ))}
               </div>
             </div>
-          )}
+          </section>
+        )}
+      </main>
+
+      <footer className="site-footer"><span>山海之间 · 中国地图与美食选择器</span><span>© xingzeye · Northeast Electric Power University</span></footer>
+
+      {showFoodResult && selectedFood && (
+        <div className="food-result-modal" onClick={closeFoodResult}>
+          <div className="food-result-content" role="dialog" aria-modal="true" aria-labelledby="food-result-title" onClick={(event) => event.stopPropagation()}>
+            <button ref={closeResultRef} type="button" className="modal-close" aria-label="关闭结果弹窗" onClick={closeFoodResult}>×</button>
+            <span className="section-index">TODAY'S PICK</span>
+            <h2 id="food-result-title">今天就吃 <em>{selectedFood.name}</em></h2>
+            <div className="selected-food-image-container"><img src={publicAsset(selectedFood.image)} alt="" className="selected-food-image" decoding="async" /></div>
+            <p className="selected-food-description">{selectedFood.description}</p>
+            <button type="button" className="close-result-button" onClick={closeFoodResult}>继续探索 <span aria-hidden="true">↗</span></button>
+          </div>
         </div>
       )}
     </div>
