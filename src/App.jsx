@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import ReactECharts from 'echarts-for-react'
 import * as echarts from 'echarts'
 import './App.css'
+import TravelAssistant from './components/TravelAssistant'
 
 const visibleMapLabels = new Set(['新疆', '西藏', '青海', '内蒙古', '黑龙江', '四川', '云南', '广东', '山东', '陕西'])
 const publicAsset = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
@@ -9,6 +10,7 @@ const publicAsset = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/,
 function App() {
   // 状态管理变量定义
   const [currentPage, setCurrentPage] = useState('map') // 当前显示的页面：'map' 或 'food'
+  const [configureTick, setConfigureTick] = useState(0)
   const [mapOption, setMapOption] = useState({}) // 中国地图配置
   const [provinceMapOption, setProvinceMapOption] = useState({}) // 省份地图配置
   const [selectedProvince, setSelectedProvince] = useState('') // 当前选中的省份
@@ -934,24 +936,25 @@ function App() {
           <button type="button" className={`nav-tab ${currentPage === 'food' ? 'active' : ''}`} aria-pressed={currentPage === 'food'} onClick={() => switchPage('food')}>
             风味图鉴
           </button>
+          <button type="button" className={`nav-tab ${currentPage === 'ai' ? 'active' : ''}`} aria-pressed={currentPage === 'ai'} onClick={() => switchPage('ai')}>AI 旅行助手</button>
         </nav>
 
-        <span className="header-note">一张地图 · 无限可能</span>
+        <button type="button" className="model-config-button" onClick={() => setConfigureTick(tick => tick + 1)}><span aria-hidden="true">⚙</span> 模型配置</button>
       </header>
 
       <main className="site-main">
         <section className="page-intro">
           <div>
             <p className="eyebrow">INTERACTIVE CHINA ATLAS <span>/</span> 探索中国</p>
-            <h1>{currentPage === 'map' ? <>下一站，<em>从这里出发。</em></> : <>尝一口，<em>发现新风味。</em></>}</h1>
+            <h1>{currentPage === 'map' ? <>下一站，<em>从这里出发。</em></> : currentPage === 'food' ? <>尝一口，<em>发现新风味。</em></> : <>有个想法，<em>就去远方。</em></>}</h1>
             <p className="intro-description">
-              {currentPage === 'map' ? '轻触地图上的省份，看看城市与风景；或者让一次随机选择，带你认识新的目的地。' : '从熟悉的味道到新的灵感，翻开这份轻松的美食图鉴，让今天的选择更有趣。'}
+              {currentPage === 'map' ? '轻触地图上的省份，看看城市与风景；或者让一次随机选择，带你认识新的目的地。' : currentPage === 'food' ? '从熟悉的味道到新的灵感，翻开这份轻松的美食图鉴，让今天的选择更有趣。' : '连接你喜欢的模型，从景点与美食聊起，把随机到的目的地变成一份可以出发的旅行计划。'}
             </p>
           </div>
-          <div className="intro-count" aria-label={currentPage === 'map' ? '31个可探索省级区域' : `${foodData.length}道美食灵感`}>
+          {currentPage !== 'ai' && <div className="intro-count" aria-label={currentPage === 'map' ? '31个可探索省级区域' : `${foodData.length}道美食灵感`}>
             <strong>{currentPage === 'map' ? '31' : String(foodData.length).padStart(2, '0')}</strong>
             <span>{currentPage === 'map' ? '个可探索地区' : '道风味灵感'}</span>
-          </div>
+          </div>}
         </section>
 
         {currentPage === 'map' && (
@@ -1003,6 +1006,7 @@ function App() {
                 <div className="panel-row"><p className="section-index">当前目的地</p><span className="selection-dot" aria-hidden="true" /></div>
                 <h2>{selectedProvince || '等待一次点击'}</h2>
                 <p>{selectedCity ? `已选城市 · ${selectedCity}` : selectedProvince ? '在下方选择一座城市，继续你的探索。' : '地图上的每一个区域，都可能是下一段旅程的开始。'}</p>
+                {selectedCity && !isCitySpinning && !isAutoPlaying && <button type="button" className="travel-city-button" onClick={() => switchPage('ai')}>问问 AI · 景点、美食与行程 ↗</button>}
               </section>
 
               <section className="detail-panel">
@@ -1075,6 +1079,7 @@ function App() {
             </div>
           </section>
         )}
+        <TravelAssistant visible={currentPage === 'ai'} destination={{ city: !isCitySpinning && !isAutoPlaying ? selectedCity : '', province: !isCitySpinning && !isAutoPlaying ? selectedProvince : '', food: !isFoodSpinning ? selectedFood?.name : '' }} configureTick={configureTick} selecting={isCitySpinning || isAutoPlaying} />
       </main>
 
       <footer className="site-footer"><span>山海之间 · 中国地图与美食选择器</span><span>© xingzeye · Northeast Electric Power University</span></footer>

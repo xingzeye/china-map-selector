@@ -13,6 +13,9 @@ dist-ssr
 *.local
 .playwright-cli/
 .art-source/
+.ai-local/
+output/playwright/
+*.site.tar.gz
 
 # Editor directories and files
 .vscode/*

@@ -1,0 +1,129 @@
+.assistant-layout { display: grid; grid-template-columns: minmax(260px, .72fr) minmax(0, 1.75fr); gap: 26px; align-items: start; }
+.assistant-layout[hidden] { display: none; }
+.travel-brief { padding: 32px; border: 1px solid #cfddd7; border-radius: 23px; background: linear-gradient(145deg, #e8f0e7, #f7f8ed); }
+.travel-brief .section-index { color: #71887b; }
+.travel-symbol { display: block; margin-top: 22px; color: #138377; font-size: 35px; }
+.travel-caption { margin: 14px 0 8px; color: #6a8278; font-size: 13px; }
+.travel-brief h2 { margin: 0; font-size: clamp(24px, 2.5vw, 34px); letter-spacing: -.04em; }
+.travel-context, .travel-food { margin: 14px 0; color: #688079; font-size: 12px; line-height: 1.8; }
+.travel-food { color: #8b6b39; }
+.travel-ideas { display: grid; gap: 11px; margin-top: 26px; }
+.travel-ideas button { display: flex; align-items: center; gap: 12px; padding: 17px 14px; border: 1px solid #d8e4db; border-radius: 13px; color: var(--ink); background: #ffffffa6; text-align: left; font: inherit; cursor: pointer; }
+.travel-ideas button:hover:not(:disabled) { border-color: #76a798; background: #fff; }
+.travel-ideas button > span:first-child { color: var(--teal); font-size: 23px; }
+.travel-ideas button > span:nth-child(2) { display: grid; flex: 1; gap: 5px; }
+.travel-ideas strong { font-size: 13px; }
+.travel-ideas small { color: #7d8c83; font-size: 11px; }
+.travel-note { margin: 23px 0 0; color: #849082; font-size: 11px; line-height: 1.8; }
+.chat-panel { display: flex; flex-direction: column; min-width: 0; border: 1px solid #d9e5df; border-radius: 23px; overflow: hidden; background: #fffefb; box-shadow: 0 12px 40px #214f4210; }
+.chat-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 27px 28px 19px; }
+.chat-header .section-index { color: #80968b; }
+.chat-header h2 { margin: 9px 0 0; font-size: 23px; }
+.chat-header h2 span { color: #bd914f; font-size: 18px; }
+.model-badge { max-width: 48%; overflow-wrap: anywhere; padding: 10px 13px; border: 1px solid #dbe5df; border-radius: 10px; background: #eff4ee; color: #47645a; cursor: pointer; font: inherit; font-size: 12px; }
+.chat-toolbar { display: flex; justify-content: space-between; gap: 10px; padding: 12px 28px; border-top: 1px solid #edf1e9; border-bottom: 1px solid #edf1e9; background: #f7f9f3; color: #829087; font-size: 11px; }
+.chat-toolbar > div { display: flex; gap: 13px; flex-shrink: 0; }
+.chat-toolbar button, .copy-message { border: 0; background: transparent; color: #4f786a; cursor: pointer; font: inherit; font-size: 11px; padding: 0; }
+.chat-messages { height: clamp(300px, calc(100dvh - 620px), 620px); overflow-y: auto; padding: 25px 28px; overscroll-behavior: contain; }
+.chat-welcome { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; min-height: 280px; text-align: center; }
+.chat-welcome > span { display: grid; place-items: center; width: 64px; height: 64px; border: 1px solid #d2e0d2; border-radius: 19px; color: #527e68; background: #eef4e9; font-family: 'KaiTi', serif; font-size: 34px; transform: rotate(-4deg); }
+.chat-welcome h3 { margin: 22px 0 11px; font-size: 22px; font-weight: 600; }
+.chat-welcome p { margin: 0; color: #819087; font-size: 13px; line-height: 1.9; }
+.welcome-tags { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 22px; }
+.welcome-tags span { padding: 7px 11px; border: 1px solid #e3eadf; border-radius: 999px; color: #879783; font-size: 11px; }
+.chat-message { margin-bottom: 25px; max-width: 100%; min-width: 0; }
+.chat-message.user { width: fit-content; max-width: 92%; margin-left: auto; }
+.message-author { display: flex; gap: 9px; align-items: center; margin-bottom: 8px; color: #698679; font-size: 11px; font-weight: 700; }
+.message-author small { color: #939e92; font-weight: 400; }
+.user .message-author { justify-content: flex-end; }
+.message-content { padding: 15px 18px; border: 1px solid #e1e8de; border-radius: 4px 16px 16px; color: #28443b; background: #f6f8f1; font-size: 14px; line-height: 1.85; overflow-wrap: anywhere; }
+.user .message-content { border: 0; border-radius: 16px 4px 16px 16px; color: #f3f8f2; background: #176b60; }
+.message-content > :first-child { margin-top: 0; }
+.message-content > :last-child { margin-bottom: 0; }
+.message-content h1, .message-content h2, .message-content h3 { font-size: 17px; line-height: 1.6; margin: 16px 0 7px; }
+.message-content ul, .message-content ol { padding-left: 22px; }
+.message-content p { margin: 10px 0; white-space: pre-wrap; }
+.message-content a { color: #158675; }
+.message-content table { display: block; overflow-x: auto; border-collapse: collapse; max-width: 100%; font-size: 12px; }
+.message-content th, .message-content td { border: 1px solid #dce6db; padding: 8px; min-width: 70px; }
+.message-content pre { overflow-x: auto; padding: 12px; border-radius: 8px; background: #e8ede3; }
+.message-content img { max-width: 100%; }
+.message-content blockquote { margin-left: 0; border-left: 3px solid #aac3ac; padding-left: 14px; }
+.copy-message { margin-top: 8px; padding: 4px 2px; }
+.failed .message-content { background: #fff2e5; border-color: #eddbc2; }
+.typing-label { color: #76937d; }
+.chat-notice { margin: 0; padding: 11px 28px; color: #8e6e42; background: #fff7e8; font-size: 12px; line-height: 1.7; }
+.chat-composer { margin: 18px 22px 22px; padding: 13px 15px 12px; border: 1px solid #d4e1d3; border-radius: 14px; background: #fbfcf8; }
+.chat-composer:focus-within { border-color: #589784; box-shadow: 0 0 0 3px #63998412; }
+.chat-composer textarea { width: 100%; min-height: 61px; max-height: 180px; resize: vertical; border: 0; outline: none; color: var(--ink); background: transparent; font: inherit; font-size: 14px; line-height: 1.8; }
+.chat-composer textarea::placeholder { color: #9aa698; }
+.composer-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 9px; }
+.composer-footer > span { color: #8a9a88; font-size: 10px; }
+.composer-footer button { padding: 9px 15px; border: 0; border-radius: 9px; color: white; background: #176b60; font: inherit; font-size: 12px; cursor: pointer; white-space: nowrap; }
+.assistant-layout button:disabled, .model-dialog button:disabled { opacity: .5; cursor: not-allowed; }
+.chat-confirm { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding: 12px 28px; background: #fff4df; font-size: 12px; }
+.chat-confirm button { padding: 5px 10px; border: 1px solid #dfcba4; border-radius: 6px; background: white; color: #7f6036; cursor: pointer; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+.model-config-button { display: flex; align-items: center; gap: 7px; padding: 9px 14px; border: 1px solid #d2dfd5; border-radius: 999px; color: #4e7765; background: #f7faf3; font: inherit; font-size: 12px; cursor: pointer; }
+.travel-city-button { margin-top: 15px; padding: 10px 14px; border: 1px solid #4e827a; border-radius: 10px; background: #e3f2eb; color: #175d51; font: inherit; font-size: 12px; cursor: pointer; }
+.model-dialog { width: min(620px, calc(100% - 30px)); max-height: calc(100dvh - 40px); margin: auto; padding: 27px; border: 1px solid #d4e0d3; border-radius: 21px; background: #fffef9; color: var(--ink); box-shadow: 0 30px 100px #03291c44; }
+.model-dialog::backdrop { background: #0a2b2699; backdrop-filter: blur(5px); }
+.model-dialog-header { display: flex; justify-content: space-between; align-items: start; }
+.model-dialog-header .section-index { color: #7d9783; }
+.model-dialog-header h2 { font-size: 22px; margin: 8px 0 19px; }
+.model-dialog-header > button { width: 30px; height: 30px; border: 0; border-radius: 50%; background: #eef2e7; color: #4d6854; font-size: 22px; cursor: pointer; }
+.connection-tabs { display: flex; gap: 5px; padding: 5px; border: 1px solid #e1e7dc; border-radius: 11px; background: #f1f4e9; }
+.connection-tabs button { flex: 1; padding: 10px; border: 0; border-radius: 7px; background: transparent; color: #829177; font: inherit; font-size: 12px; cursor: pointer; }
+.connection-tabs .active { background: #fffef9; color: #176b60; box-shadow: 0 2px 8px #2d523c0c; font-weight: 700; }
+.config-description { color: #75836b; font-size: 12px; line-height: 1.8; margin: 17px 0; }
+.model-form label, .oauth-progress label { display: grid; gap: 7px; margin: 15px 0; color: #496149; font-size: 12px; font-weight: 600; }
+.model-form input, .model-form select, .oauth-progress input { min-width: 0; width: 100%; min-height: 42px; padding: 10px 12px; border: 1px solid #d8e2d1; border-radius: 9px; background: #fbfcf7; color: var(--ink); font: inherit; font-size: 13px; }
+.model-form input:focus-visible, .model-form select:focus-visible, .oauth-progress input:focus-visible { outline: 2px solid #69a48e; outline-offset: 1px; }
+.bridge-guide { display: grid; gap: 9px; padding: 15px; border: 1px solid #e0e7d3; border-radius: 10px; background: #f3f5e8; font-size: 12px; }
+.bridge-guide code { padding: 8px 10px; border-radius: 6px; background: #e4eada; color: #386645; user-select: all; font-size: 13px; }
+.bridge-guide span { color: #7d896e; line-height: 1.7; font-size: 11px; }
+.bridge-guide a, .oauth-progress a { color: #2b8063; font-size: 12px; }
+.connection-actions, .model-dialog-footer { display: flex; gap: 10px; margin-top: 18px; }
+.connection-actions button, .model-dialog-footer button, .oauth-progress button { min-height: 40px; padding: 10px 13px; border: 1px solid #cedcca; border-radius: 9px; background: #f4f8ee; color: #426d4c; font: inherit; font-size: 12px; cursor: pointer; }
+.connection-actions button { flex: 1; }
+.connection-actions .chatgpt-login { color: white; background: #163a30; border-color: #163a30; }
+.account-status { display: flex; gap: 10px; justify-content: space-between; margin-top: 15px; color: #288960; font-size: 12px; overflow-wrap: anywhere; }
+.account-status button { flex-shrink: 0; border: 0; background: transparent; color: #879373; font: inherit; font-size: 11px; cursor: pointer; }
+.config-privacy { margin: 18px 0; color: #8b957a; font-size: 11px; line-height: 1.8; }
+.config-notice { padding: 12px; border-radius: 9px; background: #f1f4e7; color: #667f49; font-size: 12px; line-height: 1.8; overflow-wrap: anywhere; }
+.model-dialog-footer { justify-content: space-between; border-top: 1px solid #e6eadd; padding-top: 18px; }
+.model-dialog-footer .save-config { background: #176b60; border-color: #176b60; color: white; min-width: 110px; }
+.test-cost-note { display: block; margin-top: 10px; color: #9da28b; font-size: 10px; }
+.oauth-progress { margin-top: 20px; padding: 15px; border: 1px solid #d7dfca; border-radius: 10px; background: #f5f7ed; }
+.oauth-progress p { font-size: 12px; line-height: 1.8; color: #768766; }
+.oauth-progress button + button { margin-left: 10px; }
+@media (max-width: 1100px) { .assistant-layout { grid-template-columns: minmax(240px,.7fr) minmax(0,1.5fr); gap: 18px; } .travel-brief { padding: 24px; } }
+@media (max-width: 760px) {
+  .assistant-layout { grid-template-columns: 1fr; gap: 18px; }
+  .travel-brief { padding: 23px; }
+  .travel-symbol, .travel-caption { display: none; }
+  .travel-brief h2 { margin-top: 10px; }
+  .travel-context { margin: 8px 0; }
+  .travel-ideas { grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 17px; }
+  .travel-ideas button { padding: 13px 9px; gap: 7px; }
+  .travel-ideas button > span:first-child { font-size: 18px; }
+  .travel-ideas button > span:last-child { display: none; }
+  .travel-ideas strong { font-size: 11px; }
+  .travel-ideas small { font-size: 9px; line-height: 1.5; }
+  .travel-note { margin-top: 13px; font-size: 10px; }
+  .chat-header { padding: 22px 18px 17px; }
+  .chat-header h2 { font-size: 19px; }
+  .chat-toolbar { padding: 12px 18px; font-size: 10px; }
+  .chat-messages { padding: 20px 16px; height: 380px; }
+  .chat-composer { margin: 14px; padding: 12px; }
+  .message-content { padding: 12px 14px; font-size: 13px; }
+  .chat-notice { padding: 10px 17px; }
+  .composer-footer > span { font-size: 9px; }
+  .model-dialog { padding: 20px; }
+  .connection-actions { flex-direction: column; }
+  .nav-tab { min-width: 0; padding: 10px 9px; font-size: 12px; }
+  .model-config-button { margin-left: auto; }
+  .site-header .brand { order: 0; }
+  .site-header .model-config-button { order: 1; }
+  .site-header .nav-tabs { order: 2; }
+}

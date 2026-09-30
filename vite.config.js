@@ -6,6 +6,7 @@ export default defineConfig({
   base: '/china-map-selector/',  // 保持原有配置
   build: {
     outDir: 'dist',
+    emptyOutDir: false,
     assetsDir: 'assets',
     rollupOptions: {
       output: {
